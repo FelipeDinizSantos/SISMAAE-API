@@ -69,3 +69,28 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: 'Erro ao realizar login.' });
     }
 };
+
+exports.show = async (req, res) => {
+
+    const {id} = req.params; 
+
+    if(!id) return res.status(400).json({erro: "ID do usuário não informado!"});
+
+    try {
+        let [usuario] = await pool.query(
+        `
+            SELECT u.id, u.pg, u.nome, u.idt_militar, p.nome AS perfil
+            FROM usuarios u 
+            LEFT JOIN perfis p 
+            ON u.perfil_id = p.id    
+            WHERE u.id = ?
+        `, [id]);
+
+        if(usuario.length === 0) return res.status(400).json({erro: "Usuário não encontrado!"});
+
+        return res.status(200).json({resultado: usuario});
+    } catch (erro) {
+        console.log(erro);
+        return res.status(500).json("Houve um erro durante a busca do usuário!");
+    }
+}

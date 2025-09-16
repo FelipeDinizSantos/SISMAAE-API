@@ -9,9 +9,9 @@ const usuarioRoutes = require("./routes/usuario.routes");
 
 app.use(express.json());
 
-app.use('/api/', auth, materialRoutes);
-app.use('/api/', auth, moduloRoutes);
-app.use('/api/', auth, batalhoesRoutes);
+app.use('/api/', materialRoutes);
+app.use('/api/', moduloRoutes);
+app.use('/api/', batalhoesRoutes);
 app.use('/api/', usuarioRoutes);
 
 module.exports = app;
