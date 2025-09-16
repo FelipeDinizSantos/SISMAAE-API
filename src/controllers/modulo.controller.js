@@ -69,7 +69,6 @@ exports.index = async (req, res) => {
     }
 };
 
-
 exports.edit = async (req, res) => {
     try {
         const { id } = req.params;

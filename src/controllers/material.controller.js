@@ -5,6 +5,7 @@ exports.index = async (req, res) => {
         let [rows] = await pool.query(
             `
             SELECT
+                mat.id,
                 mat.nome AS Material,
                 mat.serial_num AS SN,
                 mat.status AS Disponibilidade,
@@ -55,7 +56,7 @@ exports.show = async (req, res) => {
 
 exports.edit = async (req, res) => {
     try {
-        const { id } = req.query.id;
+        const {id} = req.params;
         const { observacao, disponibilidade } = req.body;
         const [material] = await pool.query("SELECT id, serial_num FROM materiais WHERE id = ?", [id]);
 
