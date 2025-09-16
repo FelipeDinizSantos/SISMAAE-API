@@ -70,9 +70,9 @@ exports.login = async (req, res) => {
     }
 };
 
-exports.show = async (req, res) => {
+exports.me = async (req, res) => {
 
-    const {id} = req.params; 
+    const {id} = req.usuario; 
 
     if(!id) return res.status(400).json({erro: "ID do usuário não informado!"});
 
