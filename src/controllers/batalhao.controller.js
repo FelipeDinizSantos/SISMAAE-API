@@ -2,7 +2,7 @@ const pool = require("../config/db")
 
 exports.index = async (req, res) => {
     try {
-        const [batalhoes] = await pool.query("SELECT nome, sigla FROM batalhoes");
+        const [batalhoes] = await pool.query("SELECT id, nome, sigla FROM batalhoes");
 
         if(batalhoes.length === 0) return res.status(400).json({erro: "Nenhum batalhão encontrado!"});
 

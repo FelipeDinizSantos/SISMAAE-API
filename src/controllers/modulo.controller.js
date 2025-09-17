@@ -72,7 +72,7 @@ exports.index = async (req, res) => {
 exports.edit = async (req, res) => {
     try {
         const { id } = req.params;
-        const { observacao, disponibilidade, cabideId } = req.body;
+        const { observacao, disponibilidade, cabideSN, omOrigemId, omDestinoId } = req.body;
 
         const [modulo] = await pool.query("SELECT id, serial_num FROM modulos WHERE id = ?", [id]);
         if (modulo.length === 0) return res.status(400).json({ erro: "Modulo não encontrado!" });
@@ -87,17 +87,33 @@ exports.edit = async (req, res) => {
             campos.push("status = ?");
             valores.push(disponibilidade);
         }
-        if (cabideId !== undefined) {
-            const [materialRows] = await pool.query("SELECT id, serial_num FROM materiais WHERE id = ?", [cabideId]);
+        if (cabideSN !== undefined) {
+            const [materialRows] = await pool.query("SELECT id, serial_num FROM materiais WHERE serial_num = ?", [cabideSN]);
             if (materialRows.length === 0) return res.status(400).json({ erro: "Cabide não encontrado!" });
 
             campos.push("material_id = ?");
-            valores.push(cabideId);
+            valores.push(materialRows[0].id);
+        }
+        if(omOrigemId !== undefined){
+
+            const [omRows] = await pool.query("SELECT id, nome FROM batalhoes WHERE id = ?", [omOrigemId]);
+            if (omRows.length === 0) return res.status(400).json({ erro: "OM de origem não encontrada!" });
+
+            campos.push("origem_id = ?");
+            valores.push(omOrigemId);
+        }
+        if(omDestinoId !== undefined){
+            const [omRows] = await pool.query("SELECT id, nome FROM batalhoes WHERE id = ?", [omDestinoId]);
+            if (omRows.length === 0) return res.status(400).json({ erro: "OM de destino não encontrada!" });
+
+            campos.push("loc_id = ?");
+            valores.push(omDestinoId);
         }
 
         if (campos.length === 0) return res.status(400).json({ erro: "Nenhum campo enviado para atualizar." });
 
         const sql = `UPDATE modulos SET ${campos.join(", ")} WHERE id = ?`;
+        console.log(sql);
         const [resultado] = await pool.query(sql, [...valores, id]);
         return res.status(200).json({ resultado });
     } catch (erro) {
