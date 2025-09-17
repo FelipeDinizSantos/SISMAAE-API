@@ -72,7 +72,7 @@ exports.index = async (req, res) => {
 exports.edit = async (req, res) => {
     try {
         const { id } = req.params;
-        const { observacao, disponibilidade, cabideSN, omOrigemId, omDestinoId } = req.body;
+        const { observacao, disponibilidade, cabideSN, omOrigemId, omDestinoId, isSemCabide = false } = req.body;
 
         const [modulo] = await pool.query("SELECT id, serial_num FROM modulos WHERE id = ?", [id]);
         if (modulo.length === 0) return res.status(400).json({ erro: "Modulo não encontrado!" });
@@ -108,6 +108,9 @@ exports.edit = async (req, res) => {
 
             campos.push("loc_id = ?");
             valores.push(omDestinoId);
+        }
+        if(isSemCabide){
+            campos.push("material_id = NULL");
         }
 
         if (campos.length === 0) return res.status(400).json({ erro: "Nenhum campo enviado para atualizar." });
