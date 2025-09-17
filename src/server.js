@@ -1,5 +1,8 @@
 const app = require("./app");
+require("dotenv").config();
 
-app.listen(8000,()=>{
-    console.log("Funcionando")
-})
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT,()=>{
+    console.log(`API SISMAAE rodando em porta: ${PORT}`);
+});
