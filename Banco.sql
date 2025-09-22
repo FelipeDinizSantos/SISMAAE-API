@@ -49,8 +49,8 @@ CREATE TABLE usuarios (
 -- ==================
 CREATE TABLE materiais (
     id INT AUTO_INCREMENT PRIMARY KEY, 
-    serial_num CHAR(2) NOT NULL UNIQUE, 
-    nome ENUM("RADAR","RBS70","COAAE") NOT NULL,
+    serial_num VARCHAR(4) NOT NULL, 
+    nome ENUM("RADAR","UTIR","COAAE") NOT NULL,
     `status` ENUM('DISPONIVEL','DISP_C_RESTRICAO','INDISPONIVEL','MANUTENCAO') NOT NULL DEFAULT 'DISPONIVEL',
     origem_id INT NOT NULL,
     loc_id INT NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE materiais (
 -- ====================
 CREATE TABLE modulos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    serial_num CHAR(2) NOT NULL,
+    serial_num VARCHAR(4) NOT NULL,
     nome VARCHAR(150) NOT NULL,
     `status` ENUM('DISPONIVEL','DISP_C_RESTRICAO','INDISPONIVEL','MANUTENCAO') NOT NULL DEFAULT 'DISPONIVEL',
 	origem_id INT NOT NULL,
@@ -78,6 +78,26 @@ CREATE TABLE modulos (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at DATETIME NULL,
     FOREIGN KEY (material_id) REFERENCES materiais(id),
+    FOREIGN KEY (origem_id) REFERENCES batalhoes(id),
+    FOREIGN KEY (loc_id) REFERENCES batalhoes(id)
+);
+
+-- ====================
+-- TABELA: Submodulos
+-- ====================
+CREATE TABLE submodulos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    serial_num VARCHAR(4) NOT NULL,
+    nome VARCHAR(150) NOT NULL,
+    `status` ENUM('DISPONIVEL','DISP_C_RESTRICAO','INDISPONIVEL','MANUTENCAO') NOT NULL DEFAULT 'DISPONIVEL',
+	origem_id INT NOT NULL,
+    loc_id INT NOT NULL,
+    obs VARCHAR(150) NOT NULL DEFAULT 'S/A',
+    modulo_id INT NULL, 
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at DATETIME NULL,
+    FOREIGN KEY (modulo_id) REFERENCES modulos(id),
     FOREIGN KEY (origem_id) REFERENCES batalhoes(id),
     FOREIGN KEY (loc_id) REFERENCES batalhoes(id)
 );
