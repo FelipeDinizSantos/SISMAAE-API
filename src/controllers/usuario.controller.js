@@ -56,7 +56,8 @@ exports.login = async (req, res) => {
             pg: usuario.pg,
             nome: usuario.nome,
             idtMilitar: usuario.idt_militar,
-            perfilId: usuario.perfil_id
+            perfilId: usuario.perfil_id,
+            batalhaoId: usuario.batalhao_id,
         };
 
         const token = jwt.sign(payload, authConfig.secret, {
