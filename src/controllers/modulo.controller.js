@@ -9,7 +9,7 @@ exports.index = async (req, res) => {
         const modulos = await service.modulos_index(usuario, req.query);    // Acessa método deste serviço criado (método padrão entre todos perfis)
 
         return res.status(200).json({
-            resultado: modulos
+            modulos: modulos
         });
     } catch (erro) {
         console.log(erro);

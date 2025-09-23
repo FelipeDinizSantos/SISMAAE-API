@@ -170,10 +170,14 @@ module.exports = {
                     campos.push(`material_id = NULL`);
                 }
                 if (permitidos.includes(campo) && valor !== undefined) {
-                    if (campo === "material_id") {
+                    if (campo === "cabideSN") {
                         if (!campos.includes(`material_id = NULL`)) {
-                            campos.push(`${campo} = ?`);
-                            valores.push(valor);
+                            let [material] = await pool.query(`SELECT id FROM materiais WHERE serial_num = ?`, [valor]);
+
+                            if(material.length === 0) return "Nenhum material encontrado com o numero de serie informado."
+
+                            campos.push(`material_id = ?`);
+                            valores.push(material[0].id);
                         }
                     } else {
                         campos.push(`${campo} = ?`);
