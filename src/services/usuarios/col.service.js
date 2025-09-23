@@ -1,4 +1,4 @@
-const { CAMPOS_EDITAVEIS_MATERIAIS } = require("../../constants/perfis");
+const { CAMPOS_EDITAVEIS_MATERIAIS, CAMPOS_EDITAVEIS_MODULOS } = require("../../constants/perfis");
 const pool = require("../../config/db");
 
 module.exports = {
@@ -23,6 +23,74 @@ module.exports = {
         } catch (erro) {
             console.log(erro);
             throw new Error("Houve um erro durante a busca de materiais!");
+        }
+    },
+
+    modulos_index: async (usuario, dadosQuery) => {
+        try {
+            const { id, nome, sN: serialNum, disp, origem, atual, cabide } = dadosQuery;
+
+            let condicoes = [];
+            let valores = [];
+
+            if (id !== undefined) {
+                condicoes.push("m.id = ?");
+                valores.push(id);
+            }
+            if (nome !== undefined) {
+                condicoes.push("m.nome = ?");
+                valores.push(nome);
+            }
+            if (serialNum !== undefined) {
+                condicoes.push("m.serial_num = ?");
+                valores.push(serialNum);
+            }
+            if (disp !== undefined) {
+                condicoes.push("m.status = ?");
+                valores.push(disp);
+            }
+            if (origem !== undefined) {
+                condicoes.push("orig_m.sigla = ?");
+                valores.push(origem);
+            }
+            if (atual !== undefined) {
+                condicoes.push("loc_m.sigla = ?");
+                valores.push(atual);
+            }
+            if (cabide !== undefined) {
+                condicoes.push("mat.serial_num = ?");
+                valores.push(cabide);
+            }
+
+            let where = condicoes.length > 0 ? `WHERE ${condicoes.join(" AND ")}` : "";
+
+            let sql =
+                `
+                SELECT
+                    m.id, 
+                    m.nome AS modulo,
+                    m.serial_num AS SN,
+                    m.status AS Disponibilidade,
+                    orig_m.sigla AS OM_Origem,
+                    loc_m.sigla AS OM_Atual,
+                    COALESCE(mat.nome, 'Sem Cabide') AS Material,
+                    COALESCE(mat.serial_num, 'Sem Cabide') AS SN_do_Cabide,
+                    mat.status AS Disponibilidade_do_Cabide,
+                    m.obs AS Obs
+                FROM modulos m
+                LEFT JOIN materiais mat
+                    ON material_id = mat.id
+                LEFT JOIN batalhoes orig_m ON m.origem_id = orig_m.id
+                LEFT JOIN batalhoes loc_m ON m.loc_id = loc_m.id
+                ${where}
+            `;
+
+            let [resultado] = await pool.query(sql, valores);
+
+            return resultado;
+        } catch (erro) {
+            console.log(erro);
+            throw new Error("Houve um erro durante a busca de modulos!");
         }
     },
 
@@ -52,6 +120,35 @@ module.exports = {
         } catch (error) {
             console.log(error);
             throw new Error("Houve um erro durante a atualização do material!");
+        }
+    },
+
+    modulos_edit: async (usuario, dados, id) => {
+        try {
+            const [modulos] = await pool.query("SELECT id, origem_id, loc_id FROM modulos WHERE id = ?", [id]);
+            if (modulos.length === 0) return res.status(400).json({ erro: "Modulo não encontrado!" });
+
+            const permitidos = CAMPOS_EDITAVEIS_MODULOS[usuario.perfilId] || [];
+            let campos = [];
+            let valores = [];
+
+            for (const [campo, valor] of Object.entries(dados)) {
+                if (permitidos.includes(campo) && valor !== undefined) {
+                    campos.push(`${campo} = ?`);
+                    valores.push(valor);
+                }
+            }
+            if (campos.length === 0) {
+                return "Nenhuma edição permitida para este perfil.";
+            }
+
+            const sql = `UPDATE modulos SET ${campos.join(", ")} WHERE id = ?`;
+            const [resultado] = await pool.query(sql, [...valores, id]);
+
+            return resultado;
+        } catch (error) {
+            console.log(error);
+            throw new Error("Houve um erro durante a atualização do modulo!");
         }
     },
 }
