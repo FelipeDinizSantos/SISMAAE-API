@@ -1,4 +1,3 @@
-const pool = require("../config/db");
 const usuarioServiceFactory = require("../services/usuarios/usuario.service.factory");
 
 exports.index = async (req, res) => {
@@ -19,26 +18,17 @@ exports.index = async (req, res) => {
 }
 
 exports.show = async (req, res) => {
+    const usuario = req.usuario;
+    if (!usuario) return res.status(400).json({ erro: "Usuário não foi logado corretamente. Tente novamente!" });
+
     try {
         const { id } = req.params;
 
-        let [rows] = await pool.query(
-            `
-            SELECT
-                mat.nome AS Material,
-                mat.serial_num AS SN,
-                mat.status AS Disponibilidade,
-                orig_mat.sigla AS OM_Origem,
-                loc_mat.sigla AS OM_Atual,
-                mat.obs AS Obs
-            FROM materiais mat
-            LEFT JOIN batalhoes orig_mat ON mat.origem_id = orig_mat.id
-            LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
-            WHERE mat.id = ?
-        `, [id]);
+        const service = usuarioServiceFactory(usuario.perfilId);    // Cria o serviço que será consumido 
+        const material = await service.materiais_show(id, usuario); // Acessa método deste serviço criado (método padrão entre todos perfis)
 
         return res.status(200).json({
-            resultado: rows
+            Material: material
         });
     } catch (erro) {
         console.log(erro);

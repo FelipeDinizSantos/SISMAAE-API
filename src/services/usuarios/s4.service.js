@@ -95,6 +95,30 @@ module.exports = {
         }
     },
 
+    materiais_show: async (id, usuario) => {
+        let [material] = await pool.query(
+        `
+            SELECT
+                mat.nome AS Material,
+                mat.serial_num AS SN,
+                mat.status AS Disponibilidade,
+                origem_id,
+                orig_mat.sigla AS OM_Origem,
+                mat.loc_id, 
+                loc_mat.sigla AS OM_Atual,
+                mat.obs AS Obs
+            FROM materiais mat
+            LEFT JOIN batalhoes orig_mat ON mat.origem_id = orig_mat.id
+            LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
+            WHERE mat.id = ?
+        `, [id]);
+        
+        if(material.length === 0) return "Nenhum material encontrado.";
+
+        if (material[0].loc_id !== usuario.batalhaoId && material[0].origem_id !== usuario.batalhaoId) return "Usuário não têm permissão para visualizar este material.";
+        return material;
+    },
+
     materiais_edit: async (usuario, dados, id) => {
         try {
             const [materiais] = await pool.query("SELECT id, origem_id, loc_id FROM materiais WHERE id = ?", [id]);
@@ -147,7 +171,7 @@ module.exports = {
                 }
                 if (permitidos.includes(campo) && valor !== undefined) {
                     if (campo === "material_id") {
-                        if (!campos.includes(`material_id = NULL`)){
+                        if (!campos.includes(`material_id = NULL`)) {
                             campos.push(`${campo} = ?`);
                             valores.push(valor);
                         }

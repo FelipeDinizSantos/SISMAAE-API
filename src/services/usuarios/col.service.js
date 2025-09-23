@@ -94,6 +94,27 @@ module.exports = {
         }
     },
 
+    materiais_show: async (id) => {
+        let [material] = await pool.query(
+            `
+            SELECT
+                mat.nome AS Material,
+                mat.serial_num AS SN,
+                mat.status AS Disponibilidade,
+                orig_mat.sigla AS OM_Origem,
+                loc_mat.sigla AS OM_Atual,
+                mat.obs AS Obs
+            FROM materiais mat
+            LEFT JOIN batalhoes orig_mat ON mat.origem_id = orig_mat.id
+            LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
+            WHERE mat.id = ?
+        `, [id]);
+
+        if(material.length === 0) return "Nenhum material encontrado.";
+
+        return material;
+    },
+
     materiais_edit: async (usuario, dados, id) => {
         try {
             const [materiais] = await pool.query("SELECT id, origem_id, loc_id FROM materiais WHERE id = ?", [id]);
