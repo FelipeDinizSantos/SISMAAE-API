@@ -1,15 +1,21 @@
 USE SISMAAE;
 
-INSERT batalhoes (nome, sigla) VALUES
-("Batalhão de Manutenção e Suprimento de Artilhaeria Antiaérea","B Mnt Sup AAAe"),
-("1º Grupo de Artilhaeria Antiaérea","1º GAAAe"),
-("5º Grupo de Artilhaeria Antiaérea de Selva","5º GAAAe Sl"),
-("EMBRAER","EMBRAER"),
-("2º Grupo de Artilhaeria Antiaérea","2º GAAAe"),
-("3º Grupo de Artilhaeria Antiaérea","3º GAAAe"),
-("4º Grupo de Artilhaeria Antiaérea","4º GAAAe"),
-("11º Grupo de Artilhaeria Antiaérea","11º GAAAe"),
-("12º Grupo de Artilhaeria Antiaérea","12º GAAAe");
+INSERT batalhoes (nome, sigla, regiao) VALUES
+("Batalhão de Manutenção e Suprimento de Artilhaeria Antiaérea","B Mnt Sup AAAe", 'MANUTENCAO'),
+("1º Grupo de Artilhaeria Antiaérea","1º GAAAe", 'LESTE'),
+("5º Grupo de Artilhaeria Antiaérea de Selva","5º GAAAe Sl", 'NORTE'),
+("EMBRAER","EMBRAER", 'MANUTENCAO'),
+("2º Grupo de Artilhaeria Antiaérea","2º GAAAe", 'SUDESTE'),
+("3º Grupo de Artilhaeria Antiaérea","3º GAAAe", 'SUL'),
+("4º Grupo de Artilhaeria Antiaérea","4º GAAAe", 'PLANALTO'),
+("11º Grupo de Artilhaeria Antiaérea","11º GAAAe", 'PLANALTO'),
+("12º Grupo de Artilhaeria Antiaérea","12º GAAAe", 'SUDESTE'),
+("2ª Bateria de Artilhaeria Antiaérea", "2ª Bia AAAe", 'SUL'),
+("3ª Bateria de Artilhaeria Antiaérea", "3ª Bia AAAe", 'OESTE'),
+("5ª Bateria de Artilhaeria Antiaérea Aeromovel", "5ª Bia AAAe Amv", 'SUDESTE'),
+("9ª Bateria de Artilhaeria Antiaérea Escola", "9ª Bia AAAe (Es)", 'LESTE'),
+("21ª Bateria de Artilhaeria Antiaérea Paraquedista", "21ª Bia AAAe Pqdt", 'SUDESTE'),
+("Escola de Artilhaeria de Costa e Antiaérea","EsACosAAe", 'LESTE');
 
 INSERT materiais (serial_num, nome, `status`, origem_id, loc_id) VALUES
 ("26","RADAR","INDISPONIVEL",3,3),
@@ -18,7 +24,14 @@ INSERT materiais (serial_num, nome, `status`, origem_id, loc_id) VALUES
 ("19","RADAR","INDISPONIVEL",2,2),
 ("03","RADAR","INDISPONIVEL",5,5),
 ("11","RADAR","INDISPONIVEL",5,5),
-("18","RADAR","DISP_C_RESTRICAO",5,1);
+("18","RADAR","DISP_C_RESTRICAO",5,1),
+("17","RADAR","DISPONIVEL",6,6),
+("07","RADAR","INDISPONIVEL",7,7),
+("12","RADAR","INDISPONIVEL",7,7),
+("25","RADAR","DISPONIVEL",7,7),
+("14","RADAR","DISP_C_RESTRICAO",8,8),
+("15","RADAR","INDISPONIVEL",8,8),
+("27","RADAR","DISP_C_RESTRICAO",13,13);
 
 INSERT modulos (serial_num, nome, `status`, origem_id, loc_id, material_id) VALUES
 -- CABIDE 10
@@ -61,13 +74,130 @@ INSERT modulos (serial_num, nome, `status`, origem_id, loc_id, material_id) VALU
 ("26","ANTENA","DISPONIVEL",3,1,1),
 ("26","CRF","INDISPONIVEL",3,1,1),
 ("26","IFF","INDISPONIVEL",3,4,1),
-("26","PEDESTAL","DISPONIVEL",3,3,1),
+("26","PEDESTAL","DISPONIVEL",3,3,1),  
 ("26","UPS","DISPONIVEL",3,3,1),
 ("26","CAIXA DE BATERIAS","DISPONIVEL",3,3,1),
 ("26","QUADRIPE","INDISPONIVEL",3,3,1),
 ("26","UV","DISPONIVEL",3,3,1),
 ("26","UV","DISPONIVEL",3,3,1),
-("26","CABEAMENTO","INDISPONIVEL",3,3,1);
+("26","CABEAMENTO","INDISPONIVEL",3,3,1),
+-- CABIDE 03
+("03","ANTENA","DISPONIVEL",5,5,5),
+("03","CRF","INDISPONIVEL",5,4,5),
+("03","IFF","INDISPONIVEL",5,4,5),
+("03","PEDESTAL","DISPONIVEL",5,5,5),
+("03","UPS","DISPONIVEL",5,5,5),
+("03","CAIXA DE BATERIAS","DISPONIVEL",5,5,5),
+("03","QUADRIPE","DISPONIVEL",5,5,5),
+("03","UV","DISPONIVEL",5,5,5),
+("03","GERADOR","INDISPONIVEL",5,5,5),
+("03","CABEAMENTO","INDISPONIVEL",5,5,5),
+-- CABIDE 11
+("11","ANTENA","DISPONIVEL",5,5,6),
+("11","CRF","DISP_C_RESTRICAO",5,4,6),
+("11","IFF","DISPONIVEL",5,5,6),
+("11","PEDESTAL","DISPONIVEL",5,5,6),
+("11","UPS","DISPONIVEL",5,5,6),
+("11","CAIXA DE BATERIAS","DISPONIVEL",5,5,6),
+("11","QUADRIPE","INDISPONIVEL",5,5,6),
+("11","UV","DISPONIVEL",5,5,6),
+("11","GERADOR","INDISPONIVEL",5,5,6),
+("11","CABEAMENTO","DISPONIVEL",5,5,6),
+-- CABIDE 18
+("18","ANTENA","MANUTENCAO",5,1,7),
+("18","CRF","MANUTENCAO",5,1,7),
+("18","IFF","MANUTENCAO",5,1,7),
+("18","PEDESTAL","MANUTENCAO",5,1,7),
+("18","UPS","MANUTENCAO",5,1,7),
+("18","CAIXA DE BATERIAS","MANUTENCAO",5,1,7),
+("18","QUADRIPE","MANUTENCAO",5,1,7),
+("18","UV","MANUTENCAO",5,1,7),
+("18","GERADOR","DISPONIVEL",5,5,7),
+("18","CABEAMENTO","MANUTENCAO",5,1,7),
+-- CABIDE 17
+("17","ANTENA","DISPONIVEL",6,6,8),
+("17","CRF","DISP_C_RESTRICAO",6,6,8),
+("17","IFF","DISPONIVEL",6,6,8),
+("17","PEDESTAL","DISPONIVEL",6,6,8),
+("17","UPS","DISPONIVEL",6,6,8),
+("17","CAIXA DE BATERIAS","DISPONIVEL",6,6,8),
+("17","QUADRIPE","DISPONIVEL",6,6,8),
+("17","UV","INDISPONIVEL",6,6,8),
+("17","UV","INDISPONIVEL",6,6,8),
+("17","GERADOR","DISPONIVEL",6,6,8),
+("17","CABEAMENTO","DISPONIVEL",6,6,8),
+-- CABIDE 07
+("07","ANTENA","DISPONIVEL",7,7,9),
+("07","CRF","INDISPONIVEL",7,7,9),
+("07","IFF","INDISPONIVEL",7,1,9),
+("07","PEDESTAL","DISPONIVEL",7,7,9),
+("07","UPS","INDISPONIVEL",7,1,9),
+("07","CAIXA DE BATERIAS","DISPONIVEL",7,7,9),
+("07","QUADRIPE","DISPONIVEL",7,7,9),
+("07","UV","DISP_C_RESTRICAO",7,7,9),
+("07","UV","INDISPONIVEL",7,7,9),
+("07","GERADOR","INDISPONIVEL",7,7,9),
+("07","CABEAMENTO","DISPONIVEL",7,7,9),
+-- CABIDE 12
+("12","ANTENA","DISPONIVEL",7,7,10),
+("12","CRF","INDISPONIVEL",7,1,10),
+("12","IFF","DISPONIVEL",7,7,10),
+("12","PEDESTAL","DISPONIVEL",7,7,10),
+("12","UPS","DISPONIVEL",7,7,10),
+("12","CAIXA DE BATERIAS","DISP_C_RESTRICAO",7,7,10),
+("12","QUADRIPE","DISPONIVEL",7,7,10),
+("12","UV","INDISPONIVEL",7,7,10),
+("12","UV","DISPONIVEL",7,7,10),
+("12","GERADOR","DISPONIVEL",7,7,10),
+("12","CABEAMENTO","DISPONIVEL",7,7,10),
+-- CABIDE 25
+("25","ANTENA","DISPONIVEL",7,7,11),
+("25","CRF","DISPONIVEL",7,7,11),
+("25","IFF","DISPONIVEL",7,7,11),
+("25","PEDESTAL","DISPONIVEL",7,7,11),
+("25","UPS","DISPONIVEL",7,7,11),
+("25","CAIXA DE BATERIAS","DISPONIVEL",7,7,11),
+("25","QUADRIPE","DISPONIVEL",7,7,11),
+("25","UV","DISPONIVEL",7,7,11),
+("25","UV","INDISPONIVEL",7,1,11),
+("25","GERADOR","DISPONIVEL",7,7,11),
+("25","CABEAMENTO","DISPONIVEL",7,7,11),
+-- CABIDE 14
+("14","ANTENA","DISPONIVEL",8,8,12),
+("14","CRF","DISPONIVEL",8,8,12),
+("14","IFF","INDISPONIVEL",8,4,12),
+("14","PEDESTAL","DISPONIVEL",8,8,12),
+("14","UPS","DISPONIVEL",8,8,12),
+("14","CAIXA DE BATERIAS","DISPONIVEL",8,8,12),
+("14","QUADRIPE","DISPONIVEL",8,8,12),
+("14","UV","DISP_C_RESTRICAO",8,8,12),
+("14","UV","DISP_C_RESTRICAO",8,8,12),
+("14","GERADOR","INDISPONIVEL",8,8,12),
+("14","CABEAMENTO","DISPONIVEL",8,8,12),
+-- CABIDE 15
+("15","ANTENA","DISPONIVEL",8,8,13),
+("15","CRF","INDISPONIVEL",8,4,13),
+("15","IFF","INDISPONIVEL",8,1,13),
+("15","PEDESTAL","DISPONIVEL",8,8,13),
+("15","UPS","DISPONIVEL",8,8,13),
+("15","CAIXA DE BATERIAS","DISPONIVEL",8,8,13),
+("15","QUADRIPE","DISPONIVEL",8,8,13),
+("15","UV","DISP_C_RESTRICAO",8,8,13),
+("15","UV","DISP_C_RESTRICAO",8,8,13),
+("15","GERADOR","DISPONIVEL",8,8,13),
+("15","CABEAMENTO","INDISPONIVEL",8,1,13),
+-- CABIDE 27
+("27","ANTENA","DISPONIVEL",13,13,14),
+("27","CRF","DISPONIVEL",13,13,14),
+("27","IFF","INDISPONIVEL",13,1,14),
+("27","PEDESTAL","DISPONIVEL",13,13,14),
+("27","UPS","DISPONIVEL",13,13,14),
+("27","CAIXA DE BATERIAS","DISPONIVEL",13,13,14),
+("27","QUADRIPE","INDISPONIVEL",13,1,14),
+("27","UV","DISP_C_RESTRICAO",13,13,14),
+("27","UV","DISPONIVEL",13,13,14),
+("27","GERADOR","DISPONIVEL",13,13,14),
+("27","CABEAMENTO","DISPONIVEL",13,13,14);
 
 INSERT modulos (serial_num, nome, `status`, origem_id, loc_id) VALUES
 -- SEM CABIDES
@@ -81,7 +211,9 @@ INSERT perfis (nome) VALUES
 ("MECANICO");
 
 INSERT usuarios (pg, nome, idt_militar, email, senha_hash, perfil_id, batalhao_id) VALUES
-("SGT", "TAGLIAFERRO", "0312678576", "luis.lft@hotmail.com", "ADMIN", 3, 1),
-("SD", "DINIZ", "1234567890", "felipedinizdossantos0@gmail.com", "ADMIN", 1, 1),
+("SGT", "TAGLIAFERRO", "0312678576", "luis.lft@hotmail.com", "$2b$10$HKtAfLBd8eLa5fCDvuKC2u99J5UOw/KLtx.ZMD/7bgXjb80Yh.bWy", 3, 1),
+("SD", "DINIZ", "1234567890", "felipedinizdossantos0@gmail.com", "$2b$10$B2tqUf.BKkhZRbHN.DxAe.6lwpMPOzg4NsIQ2l86eaSoS1r3wIs.S", 1, 1),
 ("CAP", "MARCEL", "1234567891", "marcel@gmail.com", "ADMIN", 4, 2);
 
+INSERT registros (material_id, acao, automatico, mecanico_id) VALUES
+(3, "Aprovado na inspeção anual", FALSE, 2);

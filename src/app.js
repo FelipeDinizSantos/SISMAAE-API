@@ -7,6 +7,7 @@ const materialRoutes = require("./routes/material.routes");
 const moduloRoutes = require("./routes/modulo.route");
 const batalhoesRoutes = require("./routes/batalhao.routes");
 const usuarioRoutes = require("./routes/usuario.routes");
+const relatorioRoutes = require("./routes/relatorio.routes");
 
 app.use(express.json());
 app.use(cors());
@@ -16,5 +17,6 @@ app.use('/api/', materialRoutes);
 app.use('/api/', moduloRoutes);
 app.use('/api/', batalhoesRoutes);
 app.use('/api/', usuarioRoutes);
+app.use('/api/', relatorioRoutes);
 
 module.exports = app;

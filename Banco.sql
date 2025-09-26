@@ -1,3 +1,4 @@
+DROP DATABASE SISMAAE;
 CREATE DATABASE SISMAAE;
 USE SISMAAE;
 
@@ -8,6 +9,7 @@ CREATE TABLE batalhoes (
     id INT AUTO_INCREMENT PRIMARY KEY, 
     nome VARCHAR(150) NOT NULL UNIQUE,
     sigla VARCHAR(20) NOT NULL UNIQUE,
+    regiao ENUM('NORTE', 'PLANALTO', 'OESTE', 'SUDESTE', 'LESTE', 'SUL', 'MANUTENCAO') NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at DATETIME NULL
@@ -102,6 +104,21 @@ CREATE TABLE submodulos (
     FOREIGN KEY (loc_id) REFERENCES batalhoes(id)
 );
 
+-- ===========================
+-- TABELA: Registros
+-- ===========================
+CREATE TABLE registros (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	material_id INT NULL,
+    modulo_id INT NULL,
+    acao VARCHAR(100) NOT NULL,
+    automatico BOOLEAN DEFAULT TRUE,
+    mecanico_id INT NULL,
+    FOREIGN KEY (material_id) REFERENCES materiais(id),
+    FOREIGN KEY (modulo_id) REFERENCES modulos(id),
+    FOREIGN KEY (mecanico_id) REFERENCES usuarios(id)
+    );
+    
 -- ===========================
 -- TABELA: Ordens de Serviços 
 -- ===========================
