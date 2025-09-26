@@ -214,6 +214,3 @@ INSERT usuarios (pg, nome, idt_militar, email, senha_hash, perfil_id, batalhao_i
 ("SGT", "TAGLIAFERRO", "0312678576", "luis.lft@hotmail.com", "$2b$10$HKtAfLBd8eLa5fCDvuKC2u99J5UOw/KLtx.ZMD/7bgXjb80Yh.bWy", 3, 1),
 ("SD", "DINIZ", "1234567890", "felipedinizdossantos0@gmail.com", "$2b$10$B2tqUf.BKkhZRbHN.DxAe.6lwpMPOzg4NsIQ2l86eaSoS1r3wIs.S", 1, 1),
 ("CAP", "MARCEL", "1234567891", "marcel@gmail.com", "ADMIN", 4, 2);
-
-INSERT registros (material_id, acao, automatico, mecanico_id) VALUES
-(3, "Aprovado na inspeção anual", FALSE, 2);
