@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+
 const cors = require("cors");
 const morgan = require('morgan');
 
@@ -8,6 +9,7 @@ const moduloRoutes = require("./routes/modulo.route");
 const batalhoesRoutes = require("./routes/batalhao.routes");
 const usuarioRoutes = require("./routes/usuario.routes");
 const relatorioRoutes = require("./routes/relatorio.routes");
+const resgistroRoutes = require("./routes/registro.routes");
 
 app.use(express.json());
 app.use(cors());
@@ -18,5 +20,6 @@ app.use('/api/', moduloRoutes);
 app.use('/api/', batalhoesRoutes);
 app.use('/api/', usuarioRoutes);
 app.use('/api/', relatorioRoutes);
+app.use('/api/', resgistroRoutes);
 
 module.exports = app;
