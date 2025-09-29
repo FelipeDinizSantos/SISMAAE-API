@@ -18,7 +18,7 @@ const CAMPOS_EDITAVEIS_MATERIAIS = {
 
 const CAMPOS_EDITAVEIS_MODULOS = {
     [PERFIS.S4]: ["status", "obs", "cabideSN"],       
-    [PERFIS.COL]: ["status", "loc_id", "obs"],     
+    [PERFIS.COL]: ["status", "loc_id", "obs", "cabideSN"],     
     [PERFIS.MECANICO]: ["status", "obs"],         
     [PERFIS.COMANDO]: [],             
     [PERFIS.ADMIN]: [],    

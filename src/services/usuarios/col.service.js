@@ -110,7 +110,7 @@ module.exports = {
             WHERE mat.id = ?
         `, [id]);
 
-        if(material.length === 0) return "Nenhum material encontrado.";
+        if (material.length === 0) return "Nenhum material encontrado.";
 
         return material;
     },
@@ -154,9 +154,23 @@ module.exports = {
             let valores = [];
 
             for (const [campo, valor] of Object.entries(dados)) {
+                if (campo === 'isSemCabide' && valor === true) {
+                    campos.push(`material_id = NULL`);
+                }
                 if (permitidos.includes(campo) && valor !== undefined) {
-                    campos.push(`${campo} = ?`);
-                    valores.push(valor);
+                    if (campo === "cabideSN") {
+                        if (!campos.includes(`material_id = NULL`)) {
+                            let [material] = await pool.query(`SELECT id FROM materiais WHERE serial_num = ?`, [valor]);
+
+                            if (material.length === 0) return "Nenhum material encontrado com o numero de serie informado."
+
+                            campos.push(`material_id = ?`);
+                            valores.push(material[0].id);
+                        }
+                    } else {
+                        campos.push(`${campo} = ?`);
+                        valores.push(valor);
+                    }
                 }
             }
             if (campos.length === 0) {
