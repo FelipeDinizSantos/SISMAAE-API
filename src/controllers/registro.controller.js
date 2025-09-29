@@ -12,13 +12,13 @@ exports.store = async (req, res) => {
             if (valor === undefined || valor === null) continue;
 
             if (campo === "mecanico_id") {
-                const [[mecanico]] = await pool.query(
+                const [[usuario]] = await pool.query(
                     "SELECT id, perfil_id FROM usuarios WHERE id = ?",
                     [valor]
                 );
-                if (!mecanico || mecanico.perfil_id !== PERFIS.MECANICO) {
+                if (!usuario || usuario.perfil_id !== PERFIS.MECANICO) {
                     return res.status(400).json({
-                        Erro: "Mecânico não encontrado ou perfil incorrespondente.",
+                        Erro: "Usuário não encontrado ou perfil incorrespondente.",
                     });
                 }
             }
