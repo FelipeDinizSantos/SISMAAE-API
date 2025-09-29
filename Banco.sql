@@ -155,6 +155,9 @@ CREATE TABLE
         acao VARCHAR(100) NOT NULL,
         automatico BOOLEAN DEFAULT FALSE,
         mecanico_id INT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        deleted_at DATETIME NULL,
         FOREIGN KEY (material_id) REFERENCES materiais (id),
         FOREIGN KEY (modulo_id) REFERENCES modulos (id),
         FOREIGN KEY (mecanico_id) REFERENCES usuarios (id)
