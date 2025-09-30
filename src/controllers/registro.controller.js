@@ -63,7 +63,8 @@ exports.materialShow = async (req, res) => {
             FROM registros r
             LEFT JOIN usuarios u 
                 ON r.mecanico_id = u.id
-            WHERE r.material_id = ?;
+            WHERE r.material_id = ?
+            ORDER BY r.created_at DESC;
         `, [id]);
 
         res.status(200).json({ Registros: registros })
