@@ -17,6 +17,7 @@ module.exports = {
                 FROM materiais mat
                 LEFT JOIN batalhoes orig_mat ON mat.origem_id = orig_mat.id
                 LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
+                ORDER BY mat.serial_num; 
             `);
 
             return rows;
@@ -83,6 +84,7 @@ module.exports = {
                 LEFT JOIN batalhoes orig_m ON m.origem_id = orig_m.id
                 LEFT JOIN batalhoes loc_m ON m.loc_id = loc_m.id
                 ${where}
+                ORDER BY m.serial_num; 
             `;
 
             let [resultado] = await pool.query(sql, valores);
