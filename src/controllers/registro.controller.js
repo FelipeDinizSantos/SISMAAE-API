@@ -86,12 +86,14 @@ exports.moduloShow = async (req, res) => {
                 r.acao,
                 r.automatico,
                 r.mecanico_id,
+                r.created_at AS data, 
                 u.pg AS mecanico_posto,
                 u.nome AS mecanico_nome
             FROM registros r
             LEFT JOIN usuarios u 
                 ON r.mecanico_id = u.id
-            WHERE r.modulo_id = ?;
+            WHERE r.modulo_id = ?
+            ORDER BY r.created_at DESC;
         `, [id]);
 
         res.status(200).json({ Registros: registros })
