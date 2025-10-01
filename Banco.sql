@@ -152,7 +152,7 @@ CREATE TABLE
         id INT AUTO_INCREMENT PRIMARY KEY,
         material_id INT NULL,
         modulo_id INT NULL,
-        acao VARCHAR(100) NOT NULL,
+        acao TEXT NOT NULL,
         automatico BOOLEAN DEFAULT FALSE,
         mecanico_id INT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
