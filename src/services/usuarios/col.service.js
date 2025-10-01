@@ -137,6 +137,13 @@ module.exports = {
             const sql = `UPDATE materiais SET ${campos.join(", ")} WHERE id = ?`;
             const [resultado] = await pool.query(sql, [...valores, id]);
 
+            if ("loc_id" in dados) {
+                await pool.query(
+                    "UPDATE modulos SET loc_id = ? WHERE material_id = ?",
+                    [dados.loc_id, id]
+                );
+            }
+
             return resultado;
         } catch (error) {
             console.log(error);
