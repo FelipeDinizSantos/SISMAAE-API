@@ -80,10 +80,12 @@ exports.me = async (req, res) => {
     try {
         let [usuario] = await pool.query(
         `
-            SELECT u.id, u.pg, u.nome, u.idt_militar, p.nome AS perfil
+            SELECT u.id, u.pg, u.nome, u.idt_militar, p.nome AS perfil, b.sigla as batalhao
             FROM usuarios u 
             LEFT JOIN perfis p 
             ON u.perfil_id = p.id    
+            LEFT JOIN batalhoes b
+            ON b.id = u.batalhao_id  
             WHERE u.id = ?
         `, [id]);
 
