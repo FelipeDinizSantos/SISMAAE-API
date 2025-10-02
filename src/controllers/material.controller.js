@@ -12,8 +12,9 @@ exports.index = async (req, res) => {
             materiais
         });
     } catch (erro) {
-        console.log(erro);
-        return res.status(400).json({ erro: "Houve um erro durante a busca de materiais!" });
+        return res
+            .status(erro.status || 500)
+            .json({ erro: erro.message || "Houve um erro durante a busca de materiais!" });
     }
 }
 
@@ -28,11 +29,12 @@ exports.show = async (req, res) => {
         const material = await service.materiais_show(id, usuario); // Acessa método deste serviço criado (método padrão entre todos perfis)
 
         return res.status(200).json({
-            Material: material
+            material
         });
     } catch (erro) {
-        console.log(erro);
-        return res.status(400).json({ erro: "Houve um problema durante a busca do material!" });
+        return res
+            .status(erro.status || 500)
+            .json({ erro: erro.message || "Houve um erro durante a busca do material!" });
     }
 }
 
@@ -50,8 +52,6 @@ exports.edit = async (req, res) => {
             resposta
         });
     } catch (erro) {
-        console.log(erro);
-
         return res
             .status(erro.status || 500)
             .json({ erro: erro.message || "Houve um erro durante a atualização do material!" });

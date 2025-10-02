@@ -18,7 +18,7 @@ exports.store = async (req, res) => {
                 );
                 if (!usuario || ![PERFIS.MECANICO, PERFIS.COL].includes(usuario.perfil_id)) {
                     return res.status(400).json({
-                        Erro: "Usuário não encontrado ou perfil incorrespondente.",
+                        erro: "Usuário não encontrado ou perfil incorrespondente.",
                     });
                 }
             }
@@ -28,7 +28,7 @@ exports.store = async (req, res) => {
         }
 
         if (campos.length === 0) {
-            return res.status(400).json({ Erro: "Nenhum campo válido informado." });
+            return res.status(400).json({ erro: "Nenhum campo válido informado." });
         }
 
         const sql = `
@@ -38,10 +38,9 @@ exports.store = async (req, res) => {
 
         await pool.query(sql, valores);
 
-        return res.status(200).json({ Resultado: "Registro gerado com sucesso." });
+        return res.status(200).json({ resultado: "Registro gerado com sucesso." });
     } catch (error) {
-        console.log(error);
-        return res.status(400).json({ Erro: "Erro ao gerar registro!" });
+        return res.status(400).json({ erro: "Erro ao gerar registro!" });
     }
 };
 
@@ -70,10 +69,9 @@ exports.materialShow = async (req, res) => {
             ORDER BY r.created_at DESC;
         `, [id]);
 
-        res.status(200).json({ Registros: registros })
+        res.status(200).json({ registros })
     } catch (error) {
-        console.log(error);
-        return res.status(400).json({ Erro: "Erro ao buscar registros!" })
+        return res.status(400).json({ erro: "Erro ao buscar registros!" })
     }
 };
 
@@ -102,9 +100,8 @@ exports.moduloShow = async (req, res) => {
             ORDER BY r.created_at DESC;
         `, [id]);
 
-        res.status(200).json({ Registros: registros })
+        res.status(200).json({ registros })
     } catch (error) {
-        console.log(error);
-        return res.status(400).json({ Erro: "Erro ao buscar registros!" })
+        return res.status(400).json({ erro: "Erro ao buscar registros!" })
     }
 }; 

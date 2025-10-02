@@ -23,7 +23,6 @@ exports.gerarHashSenha = async (req, res) => {
 
         res.status(201).json({ hash: senhaHash });
     } catch (err) {
-        console.error(err);
         res.status(500).json({ error: 'Erro ao registrar usuário.' });
     }
 };
@@ -66,7 +65,6 @@ exports.login = async (req, res) => {
 
         res.json({ token });
     } catch (err) {
-        await logAtividade(0, 'Tentativa de login', `IP: ${req.ip} \n Erro: ${err.message}`);
         res.status(500).json({ error: 'Erro ao realizar login.' });
     }
 };
@@ -93,7 +91,6 @@ exports.me = async (req, res) => {
 
         return res.status(200).json({resultado: usuario});
     } catch (erro) {
-        console.log(erro);
         return res.status(500).json("Houve um erro durante a busca do usuário!");
     }
 }
