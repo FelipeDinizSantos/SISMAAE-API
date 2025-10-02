@@ -9,7 +9,7 @@ const PERFIS = {
 
 // Nomes dos campos editaveis devem espelhar os do banco.
 const CAMPOS_EDITAVEIS_MATERIAIS = {
-    [PERFIS.S4]: ["obs"],       
+    [PERFIS.S4]: ["status", "obs"],       
     [PERFIS.COL]: ["status", "loc_id", "obs"],     
     [PERFIS.MECANICO]: ["status", "obs"],         
     [PERFIS.COMANDO]: [],             

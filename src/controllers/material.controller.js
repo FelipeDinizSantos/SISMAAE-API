@@ -42,7 +42,7 @@ exports.edit = async (req, res) => {
         if (!usuario) return res.status(400).json({ erro: "Usuário não foi logado corretamente. Tente novamente!" });
 
         const { id } = req.params;
-        
+
         const service = usuarioServiceFactory(usuario.perfilId); // Cria o serviço que será consumido 
         const resposta = await service.materiais_edit(usuario, req.body, id); // Acessa método deste serviço criado (método padrão entre todos perfis)
 
@@ -51,6 +51,9 @@ exports.edit = async (req, res) => {
         });
     } catch (erro) {
         console.log(erro);
-        return res.status(500).json({ erro: "Houve um erro durante a atualização do material!" });
+
+        return res
+            .status(erro.status || 500)
+            .json({ erro: erro.message || "Houve um erro durante a atualização do material!" });
     }
 }   

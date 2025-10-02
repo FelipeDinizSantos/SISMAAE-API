@@ -99,7 +99,7 @@ module.exports = {
 
     materiais_show: async (id, usuario) => {
         let [material] = await pool.query(
-        `
+            `
             SELECT
                 mat.nome AS Material,
                 mat.serial_num AS SN,
@@ -114,8 +114,8 @@ module.exports = {
             LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
             WHERE mat.id = ?
         `, [id]);
-        
-        if(material.length === 0) return "Nenhum material encontrado.";
+
+        if (material.length === 0) return "Nenhum material encontrado.";
 
         if (material[0].loc_id !== usuario.batalhaoId && material[0].origem_id !== usuario.batalhaoId) return "Usuário não têm permissão para visualizar este material.";
         return material;
@@ -128,7 +128,11 @@ module.exports = {
 
             const material = materiais[0];
 
-            if (material.origem_id !== usuario.batalhaoId || material.loc_id !== usuario.batalhaoId) return "Usuário atual não tem permissão para editar este material.";
+            if (material.origem_id !== usuario.batalhaoId || material.loc_id !== usuario.batalhaoId) {
+                const erro = new Error("Usuário atual não tem permissão para editar este material.");
+                erro.status = 403; 
+                throw erro;
+            }
 
             const permitidos = CAMPOS_EDITAVEIS_MATERIAIS[usuario.perfilId] || [];
             let campos = [];
@@ -149,8 +153,7 @@ module.exports = {
 
             return resultado;
         } catch (error) {
-            console.log(error);
-            throw new Error("Houve um erro durante a atualização do material!");
+            throw error;
         }
     },
 
@@ -176,7 +179,7 @@ module.exports = {
                         if (!campos.includes(`material_id = NULL`)) {
                             let [material] = await pool.query(`SELECT id FROM materiais WHERE serial_num = ?`, [valor]);
 
-                            if(material.length === 0) return "Nenhum material encontrado com o numero de serie informado."
+                            if (material.length === 0) return "Nenhum material encontrado com o numero de serie informado."
 
                             campos.push(`material_id = ?`);
                             valores.push(material[0].id);
