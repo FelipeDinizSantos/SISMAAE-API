@@ -23,7 +23,6 @@ module.exports = {
 
             return rows;
         } catch (erro) {
-            console.log(erro);
             throw new Error("Houve um erro durante a busca de materiais!");
         }
     },
@@ -92,42 +91,63 @@ module.exports = {
 
             return resultado;
         } catch (erro) {
-            console.log(erro);
             throw new Error("Houve um erro durante a busca de modulos!");
         }
     },
 
     materiais_show: async (id, usuario) => {
-        let [material] = await pool.query(
-            `
-            SELECT
-                mat.nome AS Material,
-                mat.serial_num AS SN,
-                mat.status AS Disponibilidade,
-                orig_mat.sigla AS OM_Origem,
-                mat.loc_id, 
-                loc_mat.sigla AS OM_Atual,
-                mat.obs AS Obs
-            FROM materiais mat
-            LEFT JOIN batalhoes orig_mat ON mat.origem_id = orig_mat.id
-            LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
-            WHERE mat.id = ?
-        `, [id]);
-        
-        if(material.length === 0) return "Nenhum material encontrado.";
+        try {
+            let [material] = await pool.query(
+                `
+                SELECT
+                    mat.nome AS Material,
+                    mat.serial_num AS SN,
+                    mat.status AS Disponibilidade,
+                    origem_id,
+                    orig_mat.sigla AS OM_Origem,
+                    mat.loc_id, 
+                    loc_mat.sigla AS OM_Atual,
+                    mat.obs AS Obs
+                FROM materiais mat
+                LEFT JOIN batalhoes orig_mat ON mat.origem_id = orig_mat.id
+                LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
+                WHERE mat.id = ?
+            `, [id]);
 
-        if(material[0].loc_id !== usuario.batalhaoId) return "Usuário não têm permissão para visualizar este material.";
-        return material;
+            if (material.length === 0) {
+                const erro = new Error("Nenhum material encontrado.");
+                erro.status = 404;
+                throw erro;
+            }
+
+            if (material[0].loc_id !== usuario.batalhaoId && material[0].origem_id !== usuario.batalhaoId) {
+                const erro = new Error("Usuário não têm permissão para visualizar este material.");
+                erro.status = 403;
+                throw erro;
+            }
+
+            return material;
+        } catch (error) {
+            throw error;
+        }
     },
 
     materiais_edit: async (usuario, dados, id) => {
         try {
             const [materiais] = await pool.query("SELECT id, loc_id FROM materiais WHERE id = ?", [id]);
-            if (materiais.length === 0) return res.status(400).json({ erro: "Material não encontrado!" });
+            if (materiais.length === 0) {
+                const erro = new Error("Material não encontrado.");
+                erro.status = 404;
+                throw erro;
+            }
 
             const material = materiais[0];
 
-            if (material.loc_id !== usuario.batalhaoId) return "Usuário atual não tem permissão para editar este material.";
+            if (material.loc_id !== usuario.batalhaoId) {
+                const erro = new Error("Usuário atual não tem permissão para editar este material.");
+                erro.status = 403;
+                throw erro;
+            }
 
             const permitidos = CAMPOS_EDITAVEIS_MATERIAIS[usuario.perfilId] || [];
             let campos = [];
@@ -140,7 +160,9 @@ module.exports = {
                 }
             }
             if (campos.length === 0) {
-                return "Nenhuma edição permitida para este perfil.";
+                const erro = new Error("Nenhuma edição permitida para este perfil.");
+                erro.status = 403;
+                throw erro;
             }
 
             const sql = `UPDATE materiais SET ${campos.join(", ")} WHERE id = ?`;
@@ -148,19 +170,26 @@ module.exports = {
 
             return resultado;
         } catch (error) {
-            console.log(error);
-            throw new Error("Houve um erro durante a atualização do material!");
+            throw error;
         }
     },
 
     modulos_edit: async (usuario, dados, id) => {
         try {
             const [modulos] = await pool.query("SELECT id, origem_id, loc_id FROM modulos WHERE id = ?", [id]);
-            if (modulos.length === 0) return res.status(400).json({ erro: "Modulo não encontrado!" });
+            if (modulos.length === 0) {
+                const erro = new Error("Modulo não encontrado.");
+                erro.status = 404;
+                throw erro;
+            }
 
             const modulo = modulos[0];
 
-            if (modulo.loc_id !== usuario.batalhaoId) return "Usuário atual não tem permissão para editar este modulo.";
+            if (modulo.loc_id !== usuario.batalhaoId) {
+                const erro = new Error("Usuário atual não tem permissão para editar este modulo.");
+                erro.status = 403;
+                throw erro;
+            }
 
             const permitidos = CAMPOS_EDITAVEIS_MODULOS[usuario.perfilId] || [];
             let campos = [];
@@ -173,7 +202,9 @@ module.exports = {
                 }
             }
             if (campos.length === 0) {
-                return "Nenhuma edição permitida para este perfil.";
+                const erro = new Error("Nenhuma edição permitida para este perfil.");
+                erro.status = 403;
+                throw erro;
             }
 
             const sql = `UPDATE modulos SET ${campos.join(", ")} WHERE id = ?`;
@@ -181,8 +212,7 @@ module.exports = {
 
             return resultado;
         } catch (error) {
-            console.log(error);
-            throw new Error("Houve um erro durante a atualização do modulo!");
+            throw error;
         }
     },
-}
+};
