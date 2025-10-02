@@ -16,7 +16,7 @@ exports.store = async (req, res) => {
                     "SELECT id, perfil_id FROM usuarios WHERE id = ?",
                     [valor]
                 );
-                if (!usuario || usuario.perfil_id !== PERFIS.MECANICO) {
+                if (!usuario || ![PERFIS.MECANICO, PERFIS.COL].includes(usuario.perfil_id)) {
                     return res.status(400).json({
                         Erro: "Usuário não encontrado ou perfil incorrespondente.",
                     });
@@ -59,10 +59,13 @@ exports.materialShow = async (req, res) => {
                 r.mecanico_id,
                 r.created_at AS data, 
                 u.pg AS mecanico_posto,
-                u.nome AS mecanico_nome
+                u.nome AS mecanico_nome,
+                p.nome AS perfil 
             FROM registros r
             LEFT JOIN usuarios u 
                 ON r.mecanico_id = u.id
+            LEFT JOIN perfis p 
+                ON u.perfil_id = p.id 
             WHERE r.material_id = ?
             ORDER BY r.created_at DESC;
         `, [id]);
@@ -88,10 +91,13 @@ exports.moduloShow = async (req, res) => {
                 r.mecanico_id,
                 r.created_at AS data, 
                 u.pg AS mecanico_posto,
-                u.nome AS mecanico_nome
+                u.nome AS mecanico_nome,
+                p.nome AS perfil 
             FROM registros r
             LEFT JOIN usuarios u 
                 ON r.mecanico_id = u.id
+            LEFT JOIN perfis p 
+                ON u.perfil_id = p.id 
             WHERE r.modulo_id = ?
             ORDER BY r.created_at DESC;
         `, [id]);
