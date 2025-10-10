@@ -2,9 +2,21 @@ const { CAMPOS_EDITAVEIS_MATERIAIS, CAMPOS_EDITAVEIS_MODULOS } = require("../../
 const pool = require("../../config/db");
 
 module.exports = {
-    materiais_index: async (usuario) => {
+    materiais_index: async (usuario, dadosQuery) => {
         try {
-            let [rows] = await pool.query(
+            const { atual } = dadosQuery;
+
+            let condicoes = [];
+            let valores = [];
+
+            if (atual !== undefined) {
+                condicoes.push("loc_mat.sigla = ?");
+                valores.push(atual);
+            }
+
+            let where = condicoes.length > 0 ? `WHERE mat.origem_id = ? OR mat.loc_id = ? AND ${condicoes.join(" AND ")}` : "";
+
+            let sql =
                 `
                 SELECT
                     mat.id,
@@ -17,11 +29,13 @@ module.exports = {
                 FROM materiais mat
                 LEFT JOIN batalhoes orig_mat ON mat.origem_id = orig_mat.id
                 LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
-                WHERE mat.origem_id = ? OR mat.loc_id = ?
+                ${where}
                 ORDER BY mat.serial_num; 
-            `, [usuario.batalhaoId, usuario.batalhaoId]);
+            `;
 
-            return rows;
+            let [resultado] = await pool.query(sql, [usuario.batalhaoId, usuario.batalhaoId, ...valores]);
+
+            return resultado;
         } catch (erro) {
             throw new Error("Houve um erro durante a busca de materiais!");
         }
@@ -118,7 +132,7 @@ module.exports = {
                 const erro = new Error("Nenhum material encontrado.");
                 erro.status = 404;
                 throw erro;
-            } 
+            }
 
             if (material[0].loc_id !== usuario.batalhaoId && material[0].origem_id !== usuario.batalhaoId) return "Usuário não têm permissão para visualizar este material.";
             return material;

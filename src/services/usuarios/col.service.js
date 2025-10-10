@@ -2,10 +2,26 @@ const { CAMPOS_EDITAVEIS_MATERIAIS, CAMPOS_EDITAVEIS_MODULOS } = require("../../
 const pool = require("../../config/db");
 
 module.exports = {
-    materiais_index: async (usuario) => {
+    materiais_index: async (usuario, dadosQuery) => {
         try {
-            let [rows] = await pool.query(
-                `
+            const { atual, disponibilidade } = dadosQuery;
+
+            let condicoes = [];
+            let valores = [];
+
+            if (atual !== undefined) {
+                condicoes.push("loc_mat.sigla = ?");
+                valores.push(atual);
+            }
+            if(disponibilidade !== undefined){
+                condicoes.push("mat.status = ?");
+                valores.push(disponibilidade);
+            }
+
+            let where = condicoes.length > 0 ? `WHERE ${condicoes.join(" AND ")}` : "";
+
+            let sql =
+            `
                 SELECT
                     mat.id,
                     mat.nome AS Material,
@@ -17,11 +33,15 @@ module.exports = {
                 FROM materiais mat
                 LEFT JOIN batalhoes orig_mat ON mat.origem_id = orig_mat.id
                 LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
+                ${where}
                 ORDER BY mat.serial_num; 
-            `);
+            `;
 
-            return rows;
+            let [resultado] = await pool.query(sql, valores);
+
+            return resultado;
         } catch (erro) {
+            console.error(erro);
             throw new Error("Houve um erro durante a busca de materiais!");
         }
     },
@@ -65,7 +85,7 @@ module.exports = {
             let where = condicoes.length > 0 ? `WHERE ${condicoes.join(" AND ")}` : "";
 
             let sql =
-                `
+            `
                 SELECT
                     m.id, 
                     m.nome AS modulo,
