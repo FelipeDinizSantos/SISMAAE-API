@@ -59,14 +59,17 @@ exports.materialShow = async (req, res) => {
                 r.created_at AS data, 
                 u.pg AS mecanico_posto,
                 u.nome AS mecanico_nome,
-                p.nome AS perfil 
+                p.nome AS perfil,
+                b.sigla AS mecanico_batalhao 
             FROM registros r
             LEFT JOIN usuarios u 
                 ON r.mecanico_id = u.id
             LEFT JOIN perfis p 
                 ON u.perfil_id = p.id 
+            LEFT JOIN batalhoes b
+                ON u.batalhao_id = b.id
             WHERE r.material_id = ?
-            ORDER BY r.created_at DESC;
+            ORDER BY r.created_at DESC
         `, [id]);
 
         res.status(200).json({ registros })
@@ -90,12 +93,15 @@ exports.moduloShow = async (req, res) => {
                 r.created_at AS data, 
                 u.pg AS mecanico_posto,
                 u.nome AS mecanico_nome,
-                p.nome AS perfil 
+                p.nome AS perfil,
+                b.nome AS mecanico_batalhao  
             FROM registros r
             LEFT JOIN usuarios u 
                 ON r.mecanico_id = u.id
             LEFT JOIN perfis p 
-                ON u.perfil_id = p.id 
+                ON u.perfil_id = p.id
+            LEFT JOIN batalhoes b
+                ON u.batalhao_id = b.id
             WHERE r.modulo_id = ?
             ORDER BY r.created_at DESC;
         `, [id]);
