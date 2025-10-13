@@ -48,7 +48,7 @@ module.exports = {
 
     modulos_index: async (usuario, dadosQuery) => {
         try {
-            const { id, nome, sN: serialNum, disp, origem, atual, cabide } = dadosQuery;
+            const { id, modulo, sN: serialNum, disp, origem, atual, cabide } = dadosQuery;
 
             let condicoes = [];
             let valores = [];
@@ -57,9 +57,9 @@ module.exports = {
                 condicoes.push("m.id = ?");
                 valores.push(id);
             }
-            if (nome !== undefined) {
+            if (modulo !== undefined) {
                 condicoes.push("m.nome = ?");
-                valores.push(nome);
+                valores.push(modulo);
             }
             if (serialNum !== undefined) {
                 condicoes.push("m.serial_num = ?");
