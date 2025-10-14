@@ -13,7 +13,7 @@ module.exports = {
                 condicoes.push("loc_mat.sigla = ?");
                 valores.push(atual);
             }
-            if(disponibilidade !== undefined){
+            if (disponibilidade !== undefined) {
                 condicoes.push("mat.status = ?");
                 valores.push(disponibilidade);
             }
@@ -21,7 +21,7 @@ module.exports = {
             let where = condicoes.length > 0 ? `WHERE ${condicoes.join(" AND ")}` : "";
 
             let sql =
-            `
+                `
                 SELECT
                     mat.id,
                     mat.nome AS Material,
@@ -85,7 +85,7 @@ module.exports = {
             let where = condicoes.length > 0 ? `WHERE ${condicoes.join(" AND ")}` : "";
 
             let sql =
-            `
+                `
                 SELECT
                     m.id, 
                     m.nome AS modulo,

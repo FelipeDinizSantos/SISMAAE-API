@@ -4,7 +4,7 @@ const pool = require("../../config/db");
 module.exports = {
     materiais_index: async (usuario, dadosQuery) => {
         try {
-            const { atual } = dadosQuery;
+            const { atual, disponibilidade } = dadosQuery;
 
             let condicoes = [];
             let valores = [];
@@ -13,8 +13,12 @@ module.exports = {
                 condicoes.push("loc_mat.sigla = ?");
                 valores.push(atual);
             }
+            if(disponibilidade !== undefined){
+                condicoes.push("mat.status = ?");
+                valores.push(disponibilidade);
+            }
 
-            let where = condicoes.length > 0 ? `WHERE mat.loc_id = ? AND ${condicoes.join(" AND ")}` : "";
+            let where = condicoes.length > 0 ? `WHERE mat.loc_id = ? AND ${condicoes.join(" AND ")}` : "WHERE mat.loc_id = ?";
 
             let sql =
             `
