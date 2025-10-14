@@ -1,5 +1,6 @@
 const pool = require("../config/db");
 const { PERFIS } = require("../constants/perfis");
+const { gerarCaracteresAleatorios } = require("../utils/gerarCaracteresAleatorios");
 
 exports.store = async (req, res) => {
     const dados = req.body;
@@ -31,15 +32,20 @@ exports.store = async (req, res) => {
             return res.status(400).json({ erro: "Nenhum campo válido informado." });
         }
 
+        const mes = String(new Date().getMonth() + 1).padStart(2, '0');
+        const ano = String(new Date().getFullYear());
+        const codigo = gerarCaracteresAleatorios(4, true) + mes + ano;
+
         const sql = `
-          INSERT INTO registros (${campos.join(", ")})
-          VALUES (${valores.map(() => "?").join(", ")})
+          INSERT INTO registros (cod, ${campos.join(", ")})
+          VALUES (?, ${valores.map(() => "?").join(", ")})
         `;
 
-        await pool.query(sql, valores);
+        await pool.query(sql, [codigo, ...valores]);
 
         return res.status(200).json({ resultado: "Registro gerado com sucesso." });
     } catch (error) {
+        console.log(error);
         return res.status(400).json({ erro: "Erro ao gerar registro!" });
     }
 };
@@ -52,6 +58,7 @@ exports.materialShow = async (req, res) => {
             `
             SELECT 
                 r.id,
+                r.cod,
                 r.material_id,
                 r.acao,
                 r.automatico,
@@ -86,6 +93,7 @@ exports.moduloShow = async (req, res) => {
             `
             SELECT 
                 r.id,
+                r.cod,
                 r.modulo_id,
                 r.acao,
                 r.automatico,
@@ -94,7 +102,7 @@ exports.moduloShow = async (req, res) => {
                 u.pg AS mecanico_posto,
                 u.nome AS mecanico_nome,
                 p.nome AS perfil,
-                b.nome AS mecanico_batalhao  
+                b.sigla AS mecanico_batalhao  
             FROM registros r
             LEFT JOIN usuarios u 
                 ON r.mecanico_id = u.id
