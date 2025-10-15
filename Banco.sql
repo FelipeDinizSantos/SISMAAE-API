@@ -150,6 +150,7 @@ CREATE TABLE
 CREATE TABLE
     registros (
         id INT AUTO_INCREMENT PRIMARY KEY,
+        cod CHAR(10) NOT NULL,
         material_id INT NULL,
         modulo_id INT NULL,
         acao TEXT NOT NULL,
