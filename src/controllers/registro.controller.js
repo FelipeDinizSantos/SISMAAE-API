@@ -50,6 +50,38 @@ exports.store = async (req, res) => {
     }
 };
 
+exports.index = async (req, res) => {
+    try {
+        let [registros] = await pool.query(`
+            SELECT 
+                r.id,
+                r.cod,
+                r.material_id,
+                r.acao,
+                r.automatico,
+                r.mecanico_id,
+                r.created_at AS data, 
+                u.pg AS mecanico_posto,
+                u.nome AS mecanico_nome,
+                p.nome AS perfil,
+                b.sigla AS mecanico_batalhao 
+            FROM registros r
+            LEFT JOIN usuarios u 
+                ON r.mecanico_id = u.id
+            LEFT JOIN perfis p 
+                ON u.perfil_id = p.id 
+            LEFT JOIN batalhoes b
+                ON u.batalhao_id = b.id
+            ORDER BY r.created_at DESC
+        `)
+
+        res.status(200).json({ registros });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ erro: "Erro ao buscar registro!" });
+    }
+}
+
 exports.materialShow = async (req, res) => {
     const { id } = req.params;
 
