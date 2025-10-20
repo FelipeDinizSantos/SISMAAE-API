@@ -41,7 +41,7 @@ module.exports = {
 
             return resultado;
         } catch (erro) {
-            console.error(erro);
+            console.erro(erro);
             throw new Error("Houve um erro durante a busca de materiais!");
         }
     },

@@ -13,6 +13,8 @@ exports.index = async (req, res) => {
             materiais
         });
     } catch (erro) {
+        console.log("controllers/material: \n" + erro);
+
         return res
             .status(erro.status || 500)
             .json({ erro: erro.message || "Houve um erro durante a busca de materiais!" });
@@ -33,6 +35,8 @@ exports.show = async (req, res) => {
             material
         });
     } catch (erro) {
+        console.log("controllers/material: \n" + erro);
+
         return res
             .status(erro.status || 500)
             .json({ erro: erro.message || "Houve um erro durante a busca do material!" });
@@ -53,6 +57,8 @@ exports.edit = async (req, res) => {
             resposta
         });
     } catch (erro) {
+        console.log("controllers/material: \n" + erro);
+
         return res
             .status(erro.status || 500)
             .json({ erro: erro.message || "Houve um erro durante a atualização do material!" });

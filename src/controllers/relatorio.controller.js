@@ -16,7 +16,8 @@ exports.dispPorRegiao = async (req, res) => {
 
         return res.status(200).json({regioes: rows})
 
-    } catch (error) {
+    } catch (erro) {
+        console.log("controllers/relatorio: \n" + erro);
         return res.status(400).json({erro: "Erro ao buscar relatório de disponibilidade!" });
     }
 }

@@ -44,8 +44,8 @@ exports.store = async (req, res) => {
         await pool.query(sql, [codigo, ...valores]);
 
         return res.status(200).json({ resultado: "Registro gerado com sucesso." });
-    } catch (error) {
-        console.log(error);
+    } catch (erro) {
+        console.log("controllers/registro: \n" + erro);
         return res.status(400).json({ erro: "Erro ao gerar registro!" });
     }
 };
@@ -76,8 +76,8 @@ exports.index = async (req, res) => {
         `)
 
         res.status(200).json({ registros });
-    } catch (error) {
-        console.log(error);
+    } catch (erro) {
+        console.log("controllers/registro: \n" + erro);
         return res.status(400).json({ erro: "Erro ao buscar registro!" });
     }
 }
@@ -112,7 +112,8 @@ exports.materialShow = async (req, res) => {
         `, [id]);
 
         res.status(200).json({ registros })
-    } catch (error) {
+    } catch (erro) {
+        console.log("controllers/registro: \n" + erro);
         return res.status(400).json({ erro: "Erro ao buscar registros!" })
     }
 };
@@ -147,7 +148,8 @@ exports.moduloShow = async (req, res) => {
         `, [id]);
 
         res.status(200).json({ registros })
-    } catch (error) {
+    } catch (erro) {
+        console.log("controllers/registro: \n" + erro);
         return res.status(400).json({ erro: "Erro ao buscar registros!" })
     }
 }; 

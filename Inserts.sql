@@ -420,7 +420,7 @@ VALUES
         "TAGLIAFERRO",
         "0312678576",
         "luis.lft@hotmail.com",
-        "$2b$10$HKtAfLBd8eLa5fCDvuKC2u99J5UOw/KLtx.ZMD/7bgXjb80Yh.bWy",
+        "$2b$10$vHzto/Y4Im9ZYk3Fkg9vNuIPDcRidoGkZKWTO5RQpEGbVJ86/tNqi",
         3,
         1
     ),
@@ -429,14 +429,14 @@ VALUES
         "DINIZ",
         "1234567890",
         "felipedinizdossantos0@gmail.com",
-        "$2b$10$B2tqUf.BKkhZRbHN.DxAe.6lwpMPOzg4NsIQ2l86eaSoS1r3wIs.S",
-        1,
+        "$2b$10$vHzto/Y4Im9ZYk3Fkg9vNuIPDcRidoGkZKWTO5RQpEGbVJ86/tNqi",
+        5,
         1
     ),
     (
         "CAP",
         "MARCEL",
-        "1234567891",
+        "$2b$10$vHzto/Y4Im9ZYk3Fkg9vNuIPDcRidoGkZKWTO5RQpEGbVJ86/tNqi",
         "marcel@gmail.com",
         "ADMIN",
         4,

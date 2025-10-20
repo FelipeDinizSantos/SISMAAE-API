@@ -10,6 +10,7 @@ exports.index = async (req, res) => {
             batalhoes
         })
     } catch (erro) {
+        console.log("controllers/batalhao: \n" + erro);
         return res.status(500).json({erro: "Erro durante a busca de batalhões!"});
     }
 };

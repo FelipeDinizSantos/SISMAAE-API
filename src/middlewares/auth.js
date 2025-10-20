@@ -13,7 +13,8 @@ const auth = (req, res, next) => {
 
     req.usuario = decoded; 
     next();
-  } catch (err) {
+  } catch (erro) {
+    console.log("middlewares/auth \n" + erro)
     return res.status(403).json({ error: 'Token inválido ou expirado' });
   }
 };

@@ -1,7 +1,5 @@
 DROP DATABASE SISMAAE;
-
 CREATE DATABASE SISMAAE;
-
 USE SISMAAE;
 
 -- ==================

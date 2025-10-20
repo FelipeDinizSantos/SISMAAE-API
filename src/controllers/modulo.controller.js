@@ -12,6 +12,8 @@ exports.index = async (req, res) => {
             modulos
         });
     } catch (erro) {
+        console.log("controllers/modulo: \n" + erro);
+
         return res
             .status(erro.status || 500)
             .json({ erro: erro.message || "Houve um erro durante a busca do modulo!" });
@@ -30,6 +32,8 @@ exports.edit = async (req, res) => {
 
         return res.status(200).json({ resultado });
     } catch (erro) {
+        console.log("controllers/modulo: \n" + erro);
+
         return res
             .status(erro.status || 500)
             .json({ erro: erro.message || "Houve um erro durante a atualização do modulo!" });

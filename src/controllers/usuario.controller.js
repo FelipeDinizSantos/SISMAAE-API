@@ -22,7 +22,8 @@ exports.gerarHashSenha = async (req, res) => {
         const senhaHash = await bcrypt.hash(senha, 10);
 
         res.status(201).json({ hash: senhaHash });
-    } catch (err) {
+    } catch (erro) {
+        console.log("controllers/usuario: \n" + erro);
         res.status(500).json({ error: 'Erro ao registrar usuário.' });
     }
 };
@@ -64,7 +65,8 @@ exports.login = async (req, res) => {
         });
 
         res.json({ token });
-    } catch (err) {
+    } catch (erro) {
+        console.log("controllers/usuario: \n" + erro);
         res.status(500).json({ error: 'Erro ao realizar login.' });
     }
 };
@@ -91,6 +93,7 @@ exports.me = async (req, res) => {
 
         return res.status(200).json({resultado: usuario});
     } catch (erro) {
+        console.log("controllers/usuario: \n" + erro);
         return res.status(500).json("Houve um erro durante a busca do usuário!");
     }
 }
