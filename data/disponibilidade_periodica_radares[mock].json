@@ -1,0 +1,264 @@
+{
+  "historico": [
+    {
+      "timestamp": "2023-01-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 8,
+        "DISP_C_RESTRICAO": 2,
+        "INDISPONIVEL": 1,
+        "MANUTENCAO": 0
+      },
+      "total": 11
+    },
+    {
+      "timestamp": "2023-03-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 9,
+        "DISP_C_RESTRICAO": 1,
+        "INDISPONIVEL": 1,
+        "MANUTENCAO": 0
+      },
+      "total": 11
+    },
+    {
+      "timestamp": "2023-06-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 9,
+        "DISP_C_RESTRICAO": 1,
+        "INDISPONIVEL": 2,
+        "MANUTENCAO": 0
+      },
+      "total": 12
+    },
+    {
+      "timestamp": "2023-09-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 10,
+        "DISP_C_RESTRICAO": 1,
+        "INDISPONIVEL": 1,
+        "MANUTENCAO": 1
+      },
+      "total": 13
+    },
+    {
+      "timestamp": "2023-12-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 10,
+        "DISP_C_RESTRICAO": 1,
+        "INDISPONIVEL": 1,
+        "MANUTENCAO": 1
+      },
+      "total": 13
+    },
+    {
+      "timestamp": "2024-01-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 11,
+        "DISP_C_RESTRICAO": 1,
+        "INDISPONIVEL": 0,
+        "MANUTENCAO": 1
+      },
+      "total": 13
+    },
+    {
+      "timestamp": "2024-03-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 10,
+        "DISP_C_RESTRICAO": 2,
+        "INDISPONIVEL": 1,
+        "MANUTENCAO": 1
+      },
+      "total": 14
+    },
+    {
+      "timestamp": "2024-05-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 9,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 2,
+        "MANUTENCAO": 0
+      },
+      "total": 14
+    },
+    {
+      "timestamp": "2024-07-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 10,
+        "DISP_C_RESTRICAO": 2,
+        "INDISPONIVEL": 2,
+        "MANUTENCAO": 1
+      },
+      "total": 15
+    },
+    {
+      "timestamp": "2024-10-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 10,
+        "DISP_C_RESTRICAO": 2,
+        "INDISPONIVEL": 2,
+        "MANUTENCAO": 0
+      },
+      "total": 14
+    },
+    {
+      "timestamp": "2025-01-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 12,
+        "DISP_C_RESTRICAO": 1,
+        "INDISPONIVEL": 1,
+        "MANUTENCAO": 0
+      },
+      "total": 14
+    },
+    {
+      "timestamp": "2025-01-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 14,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 2,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-02-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 13,
+        "DISP_C_RESTRICAO": 4,
+        "INDISPONIVEL": 2,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-03-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 11,
+        "DISP_C_RESTRICAO": 1,
+        "INDISPONIVEL": 2,
+        "MANUTENCAO": 0
+      },
+      "total": 14
+    },
+    {
+      "timestamp": "2025-03-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 11,
+        "DISP_C_RESTRICAO": 5,
+        "INDISPONIVEL": 3,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-04-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 10,
+        "DISP_C_RESTRICAO": 4,
+        "INDISPONIVEL": 5,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-05-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 10,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 1,
+        "MANUTENCAO": 0
+      },
+      "total": 14
+    },
+    {
+      "timestamp": "2025-05-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 9,
+        "DISP_C_RESTRICAO": 4,
+        "INDISPONIVEL": 6,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-06-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 11,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 5,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-07-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 12,
+        "DISP_C_RESTRICAO": 2,
+        "INDISPONIVEL": 5,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-08-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 13,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 3,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-09-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 14,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 2,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-10-01T00:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 9,
+        "DISP_C_RESTRICAO": 4,
+        "INDISPONIVEL": 1,
+        "MANUTENCAO": 0
+      },
+      "total": 14
+    },
+    {
+      "timestamp": "2025-10-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 15,
+        "DISP_C_RESTRICAO": 2,
+        "INDISPONIVEL": 2,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-11-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 16,
+        "DISP_C_RESTRICAO": 1,
+        "INDISPONIVEL": 2,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2025-12-01T08:00:00.000Z",
+      "status": {
+        "DISPONIVEL": 17,
+        "DISP_C_RESTRICAO": 1,
+        "INDISPONIVEL": 1,
+        "MANUTENCAO": 1
+      },
+      "total": 20
+    }
+  ]
+}
