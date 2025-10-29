@@ -18,7 +18,7 @@ module.exports = {
                 valores.push(disponibilidade);
             }
 
-            let where = condicoes.length > 0 ? `WHERE mat.origem_id = ? OR mat.loc_id = ? AND ${condicoes.join(" AND ")}` : "";
+            let where = condicoes.length > 0 ? `WHERE mat.origem_id = ? OR mat.loc_id = ? AND ${condicoes.join(" AND ")}` : "WHERE mat.origem_id = ? OR mat.loc_id = ?";
 
             let sql =
                 `
