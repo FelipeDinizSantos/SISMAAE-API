@@ -37,7 +37,11 @@ exports.login = async (req, res) => {
 
     try {
         const [[usuario]] = await pool.query(
-            'SELECT * FROM usuarios WHERE idt_militar = ?',
+            `
+                SELECT u.*, p.nome AS role FROM usuarios u 
+                INNER JOIN perfis p ON p.id = u.perfil_id
+                WHERE u.idt_militar = ?; 
+            `,
             [idtMilitar]
         );
 
@@ -55,6 +59,7 @@ exports.login = async (req, res) => {
             id: usuario.id,
             pg: usuario.pg,
             nome: usuario.nome,
+            role: usuario.role,
             idtMilitar: usuario.idt_militar,
             perfilId: usuario.perfil_id,
             batalhaoId: usuario.batalhao_id,
@@ -73,13 +78,13 @@ exports.login = async (req, res) => {
 
 exports.me = async (req, res) => {
 
-    const {id} = req.usuario; 
+    const { id } = req.usuario;
 
-    if(!id) return res.status(400).json({erro: "ID do usuário não informado!"});
+    if (!id) return res.status(400).json({ erro: "ID do usuário não informado!" });
 
     try {
         let [usuario] = await pool.query(
-        `
+            `
             SELECT u.id, u.pg, u.nome, u.idt_militar, p.nome AS perfil, b.sigla as batalhao
             FROM usuarios u 
             LEFT JOIN perfis p 
@@ -89,9 +94,9 @@ exports.me = async (req, res) => {
             WHERE u.id = ?
         `, [id]);
 
-        if(usuario.length === 0) return res.status(400).json({erro: "Usuário não encontrado!"});
+        if (usuario.length === 0) return res.status(400).json({ erro: "Usuário não encontrado!" });
 
-        return res.status(200).json({resultado: usuario});
+        return res.status(200).json({ resultado: usuario });
     } catch (erro) {
         console.log("controllers/usuario: \n" + erro);
         return res.status(500).json("Houve um erro durante a busca do usuário!");
