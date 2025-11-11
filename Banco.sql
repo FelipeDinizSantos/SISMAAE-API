@@ -73,7 +73,7 @@ CREATE TABLE
     materiais (
         id INT AUTO_INCREMENT PRIMARY KEY,
         serial_num VARCHAR(4) NOT NULL,
-        nome ENUM ("RADAR", "UTIR", "COAAE") NOT NULL,
+        nome ENUM ("RADAR", "RBS70", "COAAE") NOT NULL,
         `status` ENUM (
             'DISPONIVEL',
             'DISP_C_RESTRICAO',
@@ -108,6 +108,11 @@ CREATE TABLE
         loc_id INT NOT NULL,
         obs VARCHAR(150) NOT NULL DEFAULT 'S/A',
         material_id INT NULL,
+        pertence ENUM (
+			'RADAR',
+            'RBS70',
+            'COAAAE'
+		) NOT NULL DEFAULT 'RADAR',
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         deleted_at DATETIME NULL,
