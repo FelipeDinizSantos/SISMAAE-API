@@ -2,7 +2,7 @@ const { CAMPOS_EDITAVEIS_MATERIAIS, CAMPOS_EDITAVEIS_MODULOS } = require("../../
 const pool = require("../../config/db");
 
 module.exports = {
-    materiais_index: async (usuario, dadosQuery) => {
+    materiais_index: async (usuario, dadosQuery, tipo) => {
         try {
             const { atual, disponibilidade } = dadosQuery;
 
@@ -16,6 +16,10 @@ module.exports = {
             if(disponibilidade !== undefined){
                 condicoes.push("mat.status = ?");
                 valores.push(disponibilidade);
+            }
+            if(tipo !== undefined){
+                condicoes.push("mat.nome = ?");
+                valores.push(tipo);
             }
 
             let where = condicoes.length > 0 ? `WHERE mat.loc_id = ? AND ${condicoes.join(" AND ")}` : "WHERE mat.loc_id = ?";
