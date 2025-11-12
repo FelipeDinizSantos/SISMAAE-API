@@ -1,4 +1,3 @@
-
 const {PERFIS} = require("../../constants/perfis");
 
 const colService = require("./col.service");

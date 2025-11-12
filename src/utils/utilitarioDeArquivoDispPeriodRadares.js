@@ -1,4 +1,5 @@
-// Utilitário responsável por criar o arquivo caso não exista e incrimentar os dados ao arquivo caso este já exista.
+// Utilitário responsável por criar o arquivo.
+// Caso não exista e incrimentar os dados ao arquivo caso este já exista.
 
 const fs = require("fs/promises");
 const path = require("path");
@@ -15,7 +16,7 @@ async function ensureFileExists() {
   return filePath;
 }
 
-async function appendHistorico (entry) {
+async function appendHistorico(entry) {
   const file = await ensureFileExists();
 
   const data = JSON.parse(await fs.readFile(file, 'utf-8'));
@@ -24,4 +25,4 @@ async function appendHistorico (entry) {
   await fs.writeFile(file, JSON.stringify(data, null, 2));
 }
 
-module.exports=appendHistorico;
+module.exports = appendHistorico;

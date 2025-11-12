@@ -17,6 +17,10 @@ module.exports = {
                 condicoes.push("mat.status = ?");
                 valores.push(disponibilidade);
             }
+            if(tipo !== undefined){
+                condicoes.push("mat.nome = ?");
+                valores.push(tipo);
+            }
 
             let where = condicoes.length > 0 ? `WHERE mat.origem_id = ? OR mat.loc_id = ? AND ${condicoes.join(" AND ")}` : "WHERE mat.origem_id = ? OR mat.loc_id = ?";
 

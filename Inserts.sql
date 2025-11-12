@@ -436,9 +436,9 @@ VALUES
     (
         "CAP",
         "MARCEL",
-        "$2b$10$vHzto/Y4Im9ZYk3Fkg9vNuIPDcRidoGkZKWTO5RQpEGbVJ86/tNqi",
+        "1234567895",
         "marcel@gmail.com",
-        "ADMIN",
+        "$2b$10$vHzto/Y4Im9ZYk3Fkg9vNuIPDcRidoGkZKWTO5RQpEGbVJ86/tNqi",
         4,
         2
     );
