@@ -17,7 +17,7 @@ module.exports = {
                 condicoes.push("mat.status = ?");
                 valores.push(disponibilidade);
             }
-            if(tipo !== undefined){
+            if (tipo !== undefined) {
                 condicoes.push("mat.nome = ?");
                 valores.push(tipo);
             }
@@ -50,7 +50,7 @@ module.exports = {
         }
     },
 
-    modulos_index: async (usuario, dadosQuery) => {
+    modulos_index: async (usuario, dadosQuery, tipo) => {
         try {
             const { id, modulo, sN: serialNum, disp, origem, atual, cabide } = dadosQuery;
 
@@ -84,6 +84,10 @@ module.exports = {
             if (cabide !== undefined) {
                 condicoes.push("mat.serial_num = ?");
                 valores.push(cabide);
+            }
+            if (tipo !== undefined) {
+                condicoes.push("m.pertence = ?");
+                valores.push(tipo);
             }
 
             let where = condicoes.length > 0 ? `WHERE ${condicoes.join(" AND ")}` : "";

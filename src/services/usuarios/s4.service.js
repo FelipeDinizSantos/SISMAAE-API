@@ -2,24 +2,24 @@ const { CAMPOS_EDITAVEIS_MATERIAIS, CAMPOS_EDITAVEIS_MODULOS } = require("../../
 const pool = require("../../config/db");
 
 module.exports = {
-    materiais_index: async (usuario, dadosQuery) => {
+    materiais_index: async (usuario, dadosQuery, tipo) => {
         try {
             const { atual, disponibilidade } = dadosQuery;
 
             let condicoes = [];
             let valores = [];
 
+            if (tipo !== undefined) {
+                condicoes.push("mat.nome = ?");
+                valores.push(tipo);
+            }
             if (atual !== undefined) {
                 condicoes.push("loc_mat.sigla = ?");
                 valores.push(atual);
             }
-            if(disponibilidade !== undefined){
+            if (disponibilidade !== undefined) {
                 condicoes.push("mat.status = ?");
                 valores.push(disponibilidade);
-            }
-            if(tipo !== undefined){
-                condicoes.push("mat.nome = ?");
-                valores.push(tipo);
             }
 
             let where = condicoes.length > 0 ? `WHERE mat.origem_id = ? OR mat.loc_id = ? AND ${condicoes.join(" AND ")}` : "WHERE mat.origem_id = ? OR mat.loc_id = ?";
@@ -49,7 +49,7 @@ module.exports = {
         }
     },
 
-    modulos_index: async (usuario, dadosQuery) => {
+    modulos_index: async (usuario, dadosQuery, tipo) => {
         try {
             const { id, modulo, sN: serialNum, disp, origem, atual, cabide } = dadosQuery;
 
@@ -83,6 +83,10 @@ module.exports = {
             if (cabide !== undefined) {
                 condicoes.push("mat.serial_num = ?");
                 valores.push(cabide);
+            }
+            if (tipo !== undefined) {
+                condicoes.push("m.pertence = ?");
+                valores.push(tipo);
             }
 
             let where = condicoes.length > 0 ? `WHERE m.loc_id = ? AND ${condicoes.join(" AND ")}` : `WHERE m.loc_id = ?`;

@@ -49,7 +49,7 @@ module.exports = {
         }
     },
 
-    modulos_index: async (usuario, dadosQuery) => {
+    modulos_index: async (usuario, dadosQuery, tipo) => {
         try {
             const { id, modulo, sN: serialNum, disp, origem, atual, cabide } = dadosQuery;
 
@@ -83,6 +83,10 @@ module.exports = {
             if (cabide !== undefined) {
                 condicoes.push("mat.serial_num = ?");
                 valores.push(cabide);
+            }
+            if (tipo !== undefined) {
+                condicoes.push("m.pertence = ?");
+                valores.push(tipo);
             }
 
             let where = condicoes.length > 0 ? `WHERE m.loc_id = ? AND ${condicoes.join(" AND ")}` : `WHERE m.loc_id = ?`;

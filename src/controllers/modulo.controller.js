@@ -4,9 +4,18 @@ exports.index = async (req, res) => {
     const usuario = req.usuario;
     if (!usuario) return res.status(400).json({ erro: "Usuário não foi logado corretamente. Tente novamente!" });
 
+    const tipoMaterial = req.query.materialSelecionado;
+
+    if (tipoMaterial) {
+        const tipoValido = ["RBS70", "RADAR", "COAAE"].find(tipo => tipo === tipoMaterial.toUpperCase());
+        if (!tipoValido) {
+            return res.status(400).json({ erro: "Tipo inválido de material fornecido. Tipos válidos: RBS70, RADAR, COAAE" });
+        }
+    }
+
     try {
-        const service = usuarioServiceFactory(usuario.perfilId);             // Cria o serviço que será consumido 
-        const modulos = await service.modulos_index(usuario, req.query);    // Acessa método deste serviço criado (método padrão entre todos perfis)
+        const service = usuarioServiceFactory(usuario.perfilId); // Cria o serviço que será consumido 
+        const modulos = await service.modulos_index(usuario, req.query, tipoMaterial ? tipoMaterial.toUpperCase() : undefined); // Acessa método deste serviço criado (método padrão entre todos perfis)
 
         return res.status(200).json({
             modulos

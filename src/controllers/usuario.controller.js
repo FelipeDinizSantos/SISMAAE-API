@@ -36,13 +36,8 @@ exports.login = async (req, res) => {
         const [[usuario]] = await pool.query(
             `
                 SELECT u.*, p.nome AS role FROM usuarios u 
-<<<<<<< HEAD
-                INNER JOIN perfis p ON p.id = u.perfil_id
-                WHERE u.idt_militar = ?; 
-=======
                 INNER JOIN perfis p ON u.perfil_id = p.id
                 WHERE idt_militar = ?
->>>>>>> 21526f191be4633a189ced4a8f29657f5eea98e9
             `,
             [idtMilitar]
         );
