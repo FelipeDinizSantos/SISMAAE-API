@@ -25,7 +25,7 @@ exports.dispPorRegiao = async (req, res) => {
 }
 
 exports.historicoDisponibilidade = async (req, res) => {
-    const filePath = path.resolve('data/disponibilidade_periodica_radares[mock].json');
+    const filePath = path.resolve('src/data/disponibilidade_periodica_radares[mock].json');
 
     try {
         await fs.access(filePath);

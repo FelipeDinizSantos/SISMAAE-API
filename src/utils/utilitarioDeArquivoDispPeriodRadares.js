@@ -1,10 +1,10 @@
-// Utilitário responsável por criar o arquivo.
-// Caso não exista e incrimentar os dados ao arquivo caso este já exista.
+// Utilitário responsável por criar o arquivo caso não exista; 
+// e incrimentar os dados ao arquivo caso este já exista.
 
 const fs = require("fs/promises");
 const path = require("path");
 
-const filePath = path.resolve('data/disponibilidade_periodica_radares[mock].json');
+const filePath = path.resolve('src/data/disponibilidade_periodica_radares[mock].json');
 
 async function ensureFileExists() {
   try {
