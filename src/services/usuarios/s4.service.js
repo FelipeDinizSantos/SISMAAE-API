@@ -9,10 +9,6 @@ module.exports = {
             let condicoes = [];
             let valores = [];
 
-            if (tipo !== undefined) {
-                condicoes.push("mat.nome = ?");
-                valores.push(tipo);
-            }
             if (atual !== undefined) {
                 condicoes.push("loc_mat.sigla = ?");
                 valores.push(atual);
@@ -22,10 +18,11 @@ module.exports = {
                 valores.push(disponibilidade);
             }
 
-            let where = condicoes.length > 0 ? `WHERE mat.origem_id = ? OR mat.loc_id = ? AND ${condicoes.join(" AND ")}` : "WHERE mat.origem_id = ? OR mat.loc_id = ?";
+            let whereBase = "WHERE mat.nome = ? AND (mat.origem_id = ? OR mat.loc_id = ?)";
+            let where = condicoes.length > 0 ? `${whereBase} AND ${condicoes.join(" AND ")}` : whereBase;
 
-            let sql =
-                `
+            let sql = 
+            `
                 SELECT
                     mat.id,
                     mat.nome AS Material,
@@ -38,16 +35,18 @@ module.exports = {
                 LEFT JOIN batalhoes orig_mat ON mat.origem_id = orig_mat.id
                 LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
                 ${where}
-                ORDER BY mat.serial_num; 
+                ORDER BY mat.serial_num;
             `;
 
-            let [resultado] = await pool.query(sql, [usuario.batalhaoId, usuario.batalhaoId, ...valores]);
+            let params = [tipo, usuario.batalhaoId, usuario.batalhaoId, ...valores];
 
+            let [resultado] = await pool.query(sql, params);
             return resultado;
         } catch (erro) {
             throw new Error("Houve um erro durante a busca de materiais!");
         }
     },
+
 
     modulos_index: async (usuario, dadosQuery, tipo) => {
         try {
