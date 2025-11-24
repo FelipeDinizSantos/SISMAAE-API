@@ -1,4 +1,4 @@
-const { CAMPOS_EDITAVEIS_MATERIAIS, CAMPOS_EDITAVEIS_MODULOS } = require("../../constants/perfis");
+const { CAMPOS_EDITAVEIS_MATERIAIS, CAMPOS_EDITAVEIS_MODULOS } = require("../../constants");
 const pool = require("../../config/db");
 
 module.exports = {

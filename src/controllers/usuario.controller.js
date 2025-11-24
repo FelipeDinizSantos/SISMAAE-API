@@ -2,28 +2,68 @@ const pool = require("../config/db");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth');
+const { POSTO_GRADUACOES } = require("../constants");
 
-exports.gerarHashSenha = async (req, res) => {
-    const { senha } = req.body;
-    if (!senha) {
-        return res.status(400).json({ error: 'A senha deve ser informada!' });
+exports.register = async (req, res) => {
+    const { idtMilitar, pg, senha, email, nome, perfilId, batalhaoId } = req.body;
+
+    // Validações
+    if (!POSTO_GRADUACOES.includes(pg.toUpperCase())) {
+        res.status(400).json({ error: "PG inválido. PGs disponíveis: " + POSTO_GRADUACOES.join(", ") });
     }
-
-    // const senhaValida = senha.length >= 8 && /[A-Za-z]/.test(senha) && /[0-9]/.test(senha);
-    // if (!senhaValida) {
-    //     return res.status(400).json({
-    //         error: 'A senha deve ter pelo menos 8 caracteres e conter letras e números.'
-    //     });
-    // }
+    if (!senha) {
+        res.status(400).json({ error: 'A senha deve ser informada!' });
+    }
+    if (!senha.length >= 8 && /[A-Za-z]/.test(senha) && /[0-9]/.test(senha)) {
+        res.status(400).json({
+            error: 'A senha deve ter pelo menos 8 caracteres e conter letras e números.'
+        });
+    }
+    if (!idtMilitar) {
+        res.status(400).json({ error: 'Identidade militar não informada!' });
+    }
+    if ((await pool.query(
+        "SELECT id FROM usuarios WHERE idt_militar = ?",
+        [idtMilitar]))[0].length !== 0) {
+        res.status(400).json({ error: 'Identidade militar já utilizada!' });
+    }
+    if ((await pool.query(
+        "SELECT id FROM usuarios WHERE email = ?",
+        [email]))[0].length !== 0) {
+        res.status(400).json({ error: 'E-mail já utilizado!' });
+    }
+    if ((await pool.query(
+        "SELECT id FROM batalhoes WHERE id = ?",
+        [batalhaoId]))[0].length === 0) {
+        res.status(400).json({ error: 'ID do batalhão informado não existe!' });
+    }
+    if ((await pool.query(
+        "SELECT id FROM perfis WHERE id = ?",
+        [perfilId]))[0].length === 0) {
+        res.status(400).json({ error: 'ID do perfil do usuário inválido!' });
+    }
 
     try {
         const senhaHash = await bcrypt.hash(senha, 10);
-        res.status(201).json({ hash: senhaHash });
+
+        await pool.query(`
+            INSERT usuarios (
+                pg,
+                nome,
+                idt_militar,
+                email,
+                senha_hash,
+                perfil_id,
+                batalhao_id
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        `, [pg, nome, idtMilitar, email, senhaHash, perfilId, batalhaoId]);
+
+        return res.status(201).json({ resultado: "Registro criado com sucesso!" });
     } catch (erro) {
         console.log("controllers/usuario: \n" + erro);
         res.status(500).json({ error: 'Erro ao registrar usuário.' });
     }
-};
+}
 
 exports.login = async (req, res) => {
     const { idtMilitar, senha } = req.body;

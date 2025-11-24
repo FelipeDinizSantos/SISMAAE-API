@@ -1,4 +1,4 @@
-const {PERFIS} = require("../../constants/perfis");
+const {PERFIS} = require("../../constants");
 
 const colService = require("./col.service");
 const mecanicoService = require("./mecanico.service");

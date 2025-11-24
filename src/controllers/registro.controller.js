@@ -1,5 +1,5 @@
 const pool = require("../config/db");
-const { PERFIS } = require("../constants/perfis");
+const { PERFIS } = require("../constants");
 const { gerarCaracteresAleatorios } = require("../utils/gerarCaracteresAleatorios");
 
 exports.store = async (req, res) => {
