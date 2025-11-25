@@ -9,38 +9,38 @@ exports.register = async (req, res) => {
 
     // Validações
     if (!POSTO_GRADUACOES.includes(pg.toUpperCase())) {
-        res.status(400).json({ error: "PG inválido. PGs disponíveis: " + POSTO_GRADUACOES.join(", ") });
+        return res.status(400).json({ error: "PG inválido. PGs disponíveis: " + POSTO_GRADUACOES.join(", ") });
     }
     if (!senha) {
-        res.status(400).json({ error: 'A senha deve ser informada!' });
+        return res.status(400).json({ error: 'A senha deve ser informada!' });
     }
     if (!senha.length >= 8 && /[A-Za-z]/.test(senha) && /[0-9]/.test(senha)) {
-        res.status(400).json({
+        return res.status(400).json({
             error: 'A senha deve ter pelo menos 8 caracteres e conter letras e números.'
         });
     }
     if (!idtMilitar) {
-        res.status(400).json({ error: 'Identidade militar não informada!' });
+        return res.status(400).json({ error: 'Identidade militar não informada!' });
     }
     if ((await pool.query(
         "SELECT id FROM usuarios WHERE idt_militar = ?",
         [idtMilitar]))[0].length !== 0) {
-        res.status(400).json({ error: 'Identidade militar já utilizada!' });
+        return res.status(400).json({ error: 'Identidade militar já utilizada!' });
     }
     if ((await pool.query(
         "SELECT id FROM usuarios WHERE email = ?",
         [email]))[0].length !== 0) {
-        res.status(400).json({ error: 'E-mail já utilizado!' });
+        return res.status(400).json({ error: 'E-mail já utilizado!' });
     }
     if ((await pool.query(
         "SELECT id FROM batalhoes WHERE id = ?",
         [batalhaoId]))[0].length === 0) {
-        res.status(400).json({ error: 'ID do batalhão informado não existe!' });
+        return res.status(400).json({ error: 'ID do batalhão informado não existe!' });
     }
     if ((await pool.query(
         "SELECT id FROM perfis WHERE id = ?",
         [perfilId]))[0].length === 0) {
-        res.status(400).json({ error: 'ID do perfil do usuário inválido!' });
+        return res.status(400).json({ error: 'ID do perfil do usuário inválido!' });
     }
 
     try {
@@ -61,7 +61,7 @@ exports.register = async (req, res) => {
         return res.status(201).json({ resultado: "Registro criado com sucesso!" });
     } catch (erro) {
         console.log("controllers/usuario: \n" + erro);
-        res.status(500).json({ error: 'Erro ao registrar usuário.' });
+        return res.status(500).json({ error: 'Erro ao registrar usuário.' });
     }
 }
 
