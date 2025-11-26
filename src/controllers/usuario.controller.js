@@ -8,17 +8,7 @@ exports.register = async (req, res) => {
     const { idtMilitar, pg, senha, email, nome, perfilId, batalhaoId } = req.body;
 
     // Validações
-    if (!POSTO_GRADUACOES.includes(pg.toUpperCase())) {
-        return res.status(400).json({ error: "PG inválido. PGs disponíveis: " + POSTO_GRADUACOES.join(", ") });
-    }
-    if (!senha) {
-        return res.status(400).json({ error: 'A senha deve ser informada!' });
-    }
-    if (!senha.length >= 8 && /[A-Za-z]/.test(senha) && /[0-9]/.test(senha)) {
-        return res.status(400).json({
-            error: 'A senha deve ter pelo menos 8 caracteres e conter letras e números.'
-        });
-    }
+
     if (!idtMilitar) {
         return res.status(400).json({ error: 'Identidade militar não informada!' });
     }
@@ -26,6 +16,9 @@ exports.register = async (req, res) => {
         "SELECT id FROM usuarios WHERE idt_militar = ?",
         [idtMilitar]))[0].length !== 0) {
         return res.status(400).json({ error: 'Identidade militar já utilizada!' });
+    }
+    if (!email) {
+        return res.status(400).json({ error: 'E-mail deve ser informado!' })
     }
     if ((await pool.query(
         "SELECT id FROM usuarios WHERE email = ?",
@@ -41,6 +34,29 @@ exports.register = async (req, res) => {
         "SELECT id FROM perfis WHERE id = ?",
         [perfilId]))[0].length === 0) {
         return res.status(400).json({ error: 'ID do perfil do usuário inválido!' });
+    }
+
+    const postoValido = POSTO_GRADUACOES.some(
+        p => p.sigla === pg.toUpperCase()
+    );
+
+    if (!postoValido) {
+        const siglasDisponiveis = POSTO_GRADUACOES.map(p => p.sigla).join(", ");
+        return res.status(400).json({
+            error: "PG inválido. PGs disponíveis: " + siglasDisponiveis
+        });
+    }
+
+    if (!senha) {
+        return res.status(400).json({ error: 'A senha deve ser informada!' });
+    }
+
+    let senhaValida = senha.length >= 8 && /[A-Za-z]/.test(senha) && /[0-9]/.test(senha);
+
+    if (!senhaValida) {
+        return res.status(400).json({
+            error: 'A senha deve ter pelo menos 8 caracteres e conter letras e números.'
+        });
     }
 
     try {

@@ -24,16 +24,17 @@ const CAMPOS_EDITAVEIS_MODULOS = {
     [PERFIS.ADMIN]: [],
 };
 
-// Posto e graduações permitidos para registro 
+// Posto e graduações permitidos para registro
+
 const POSTO_GRADUACOES = [
-    'SD',
-    'CB',
-    'SGT',
-    'TEN',
-    'CAP',
-    'MAJ',
-    'TC',
-    'CEL'
+    { sigla: 'SD', nome: 'Soldado' },
+    { sigla: 'CB', nome: 'Cabo' },
+    { sigla: 'SGT', nome: 'Sargento' },
+    { sigla: 'TEN', nome: 'Tenente' },
+    { sigla: 'CAP', nome: 'Capitão' },
+    { sigla: 'MAJ', nome: 'Major' },
+    { sigla: 'TC', nome: 'Tenente-Coronel' },
+    { sigla: 'CEL', nome: 'Coronel' }
 ];
 
 module.exports = {
