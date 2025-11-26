@@ -7,7 +7,7 @@ async function coletarDadosMateriais() {
         const [rows] = await pool.query(`
             SELECT status, COUNT(*) AS total
             FROM materiais
-            WHERE deleted_at IS NULL
+            WHERE nome = "RADAR" AND deleted_at IS NULL 
             GROUP BY status
         `);
 
