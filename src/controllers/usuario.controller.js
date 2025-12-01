@@ -155,3 +155,25 @@ exports.me = async (req, res) => {
         return res.status(500).json("Houve um erro durante a busca do usuário!");
     }
 }
+
+exports.index = async (req, res) => {
+    try {
+        let [usuarios] = await pool.query(
+        `
+            SELECT u.id, u.pg, u.nome, u.idt_militar, p.nome AS perfil, b.sigla as batalhao
+            FROM usuarios u 
+            LEFT JOIN perfis p 
+            ON u.perfil_id = p.id    
+            LEFT JOIN batalhoes b
+            ON b.id = u.batalhao_id  
+            WHERE u.ativo = 1
+        `);
+
+        if (usuarios.length === 0) return res.status(400).json({ erro: "Usuário não encontrado!" });
+
+        return res.status(200).json({ resultado: usuarios });
+    } catch (erro) {
+        console.log("controllers/usuario: \n" + erro);
+        return res.status(500).json("Houve um erro durante a busca do usuário!");
+    }
+}
