@@ -52,7 +52,7 @@ CREATE TABLE
             'TC',
             'CEL'
         ) NOT NULL,
-        nome VARCHAR(150) NOT NULL,
+        pg VARCHAR(150) NOT NULL,
         idt_militar CHAR(10) NOT NULL UNIQUE,
         email VARCHAR(150) UNIQUE,
         senha_hash VARCHAR(255) NOT NULL,

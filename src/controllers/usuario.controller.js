@@ -91,8 +91,9 @@ exports.login = async (req, res) => {
     try {
         const [[usuario]] = await pool.query(
             `
-                SELECT u.*, p.nome AS role FROM usuarios u 
+                SELECT u.*, p.nome AS role, b.sigla AS batalhao FROM usuarios u 
                 INNER JOIN perfis p ON u.perfil_id = p.id
+                INNER JOIN batalhoes b ON u.batalhao_id = b.id
                 WHERE idt_militar = ?
             `,
             [idtMilitar]
@@ -116,6 +117,7 @@ exports.login = async (req, res) => {
             idtMilitar: usuario.idt_militar,
             perfilId: usuario.perfil_id,
             batalhaoId: usuario.batalhao_id,
+            batalhao: usuario.batalhao
         };
 
         const token = jwt.sign(payload, authConfig.secret, {
@@ -159,7 +161,7 @@ exports.me = async (req, res) => {
 exports.index = async (req, res) => {
     try {
         let [usuarios] = await pool.query(
-        `
+            `
             SELECT u.id, u.pg, u.nome, u.idt_militar, p.nome AS perfil, b.sigla as batalhao
             FROM usuarios u 
             LEFT JOIN perfis p 
@@ -175,5 +177,87 @@ exports.index = async (req, res) => {
     } catch (erro) {
         console.log("controllers/usuario: \n" + erro);
         return res.status(500).json("Houve um erro durante a busca do usuário!");
+    }
+}
+
+exports.edit = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const [usuario] = await pool.query("SELECT id FROM usuarios WHERE id = ?", [id]);
+        if (usuario.length === 0) {
+            const erro = new Error("Usuário não encontrado.");
+            erro.status = 404;
+            throw erro;
+        }
+
+        const permitidos = ["pg", "nome", "batalhao_id", "perfil_id"];
+        let campos = [];
+        let valores = [];
+
+        for (const [campo, valor] of Object.entries(req.body)) {
+            if (permitidos.includes(campo) && valor !== undefined) {
+                campos.push(`${campo} = ?`);
+                valores.push(valor);
+            }
+        }
+
+        if (campos.length === 0) {
+            const erro = new Error("Nenhuma edição permitida ou valida para este perfil.");
+            erro.status = 403;
+            throw erro;
+        }
+
+        const sql = `UPDATE usuarios SET ${campos.join(", ")} WHERE id = ?`;
+        const [resultado] = await pool.query(sql, [...valores, id]);
+
+        return res.status(200).json({ resultado });
+    } catch (erro) {
+        console.log("controllers/modulo: \n" + erro);
+
+        return res
+            .status(erro.status || 500)
+            .json({ erro: erro.message || "Houve um erro durante a atualização do usuário!" });
+    }
+}
+
+exports.destroy = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const [usuario] = await pool.query("SELECT id FROM usuarios WHERE id = ?", [id]);
+        if (usuario.length === 0) {
+            const erro = new Error("Usuário não encontrado.");
+            erro.status = 404;
+            throw erro;
+        }
+
+        const permitidos = ["ativo"];
+        let campos = [];
+        let valores = [];
+
+        for (const [campo, valor] of Object.entries(req.body)) {
+            if (permitidos.includes(campo) && valor !== undefined) {
+                campos.push(`${campo} = ?`);
+                valores.push(valor);
+            }
+        }
+
+        if (campos.length === 0) {
+            const erro = new Error("Campo de exclusão não informado.");
+            erro.status = 403;
+            throw erro;
+        }
+
+        const sql = `UPDATE usuarios SET ${campos.join(", ")} WHERE id = ?`;
+        const [resultado] = await pool.query(sql, [...valores, id]);
+
+        return res.status(200).json({ resultado });
+    } catch (erro) {
+        console.log("controllers/usuario: \n" + erro);
+
+        return res
+            .status(erro.status || 500)
+            .json({ erro: erro.message || "Houve um erro durante a exclusão do usuário!" });
     }
 }

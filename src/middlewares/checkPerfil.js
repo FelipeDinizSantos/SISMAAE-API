@@ -1,8 +1,8 @@
 const checkPerfil = (perfisPermitidos) => {
   return (req, res, next) => {
-    const { perfil_id } = req.user;
+    const { perfilId } = req.usuario;
 
-    if (!perfisPermitidos.includes(perfil_id)) {
+    if (!perfisPermitidos.includes(perfilId)) {
       return res.status(403).json({ error: 'Acesso negado para este perfil' });
     }
 
