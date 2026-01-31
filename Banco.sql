@@ -52,7 +52,7 @@ CREATE TABLE
             'TC',
             'CEL'
         ) NOT NULL,
-        pg VARCHAR(150) NOT NULL,
+        nome VARCHAR(150) NOT NULL,
         idt_militar CHAR(10) NOT NULL UNIQUE,
         email VARCHAR(150) UNIQUE,
         senha_hash VARCHAR(255) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE
 CREATE TABLE
     materiais (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        serial_num VARCHAR(4) NOT NULL,
+        serial_num VARCHAR(6) NOT NULL,
         nome ENUM ("RADAR", "RBS70", "COAAE") NOT NULL,
         `status` ENUM (
             'DISPONIVEL',

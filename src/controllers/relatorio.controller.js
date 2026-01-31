@@ -3,6 +3,10 @@ const fs = require("fs/promises");
 const path = require("path");
 
 exports.dispPorRegiao = async (req, res) => {
+    let material = req.query.material;
+
+    if (!material) material = "RADAR"
+
     try {
         let sql = `
             SELECT 
@@ -11,7 +15,7 @@ exports.dispPorRegiao = async (req, res) => {
             CAST(SUM(CASE WHEN m.status IN ('DISPONIVEL', 'DISP_C_RESTRICAO') THEN 1 ELSE 0 END) AS UNSIGNED) AS ativos
             FROM materiais m
             JOIN batalhoes b ON m.loc_id = b.id
-            WHERE b.regiao != "MANUTENCAO" AND m.nome = "RADAR"
+            WHERE b.regiao != "MANUTENCAO" AND m.nome = "${material.toUpperCase()}"
 	        GROUP BY b.regiao;
             `
         const [rows] = await pool.query(sql);
