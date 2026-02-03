@@ -1,0 +1,64 @@
+{
+  "historico": [
+    {
+      "timestamp": "2026-02-01T00:28:00.065Z",
+      "status": {
+        "DISPONIVEL": 39,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 7,
+        "MANUTENCAO": 0
+      },
+      "total": 46
+    },
+    {
+      "timestamp": "2026-02-01T00:33:00.077Z",
+      "status": {
+        "DISPONIVEL": 39,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 7,
+        "MANUTENCAO": 0
+      },
+      "total": 46
+    },
+    {
+      "timestamp": "2026-02-01T00:34:00.078Z",
+      "status": {
+        "DISPONIVEL": 39,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 7,
+        "MANUTENCAO": 0
+      },
+      "total": 46
+    },
+    {
+      "timestamp": "2026-02-01T00:35:00.068Z",
+      "status": {
+        "DISPONIVEL": 39,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 7,
+        "MANUTENCAO": 0
+      },
+      "total": 46
+    },
+    {
+      "timestamp": "2026-02-01T00:36:00.020Z",
+      "status": {
+        "DISPONIVEL": 39,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 7,
+        "MANUTENCAO": 0
+      },
+      "total": 46
+    },
+    {
+      "timestamp": "2026-02-01T00:37:00.025Z",
+      "status": {
+        "DISPONIVEL": 39,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 7,
+        "MANUTENCAO": 0
+      },
+      "total": 46
+    }
+  ]
+}

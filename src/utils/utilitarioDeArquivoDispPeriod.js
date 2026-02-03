@@ -4,9 +4,13 @@
 const fs = require("fs/promises");
 const path = require("path");
 
-const filePath = path.resolve('src/data/disponibilidade_periodica_radares[mock].json');
+async function ensureFileExists(tipoMaterial) {
+  let filePath;
 
-async function ensureFileExists() {
+  if (tipoMaterial == "radar") filePath = path.resolve('src/data/disponibilidade_periodica_radares[mock].json');
+  else if (tipoMaterial == "rbs70") filePath = path.resolve('src/data/disponibilidade_periodica_rbs70[mock].json');
+  else throw new Error("Valor fornecido para tipo de material inválido. Tipos válidos: [radar; rbs70]");
+
   try {
     await fs.access(filePath);
   } catch (erro) {
@@ -16,8 +20,8 @@ async function ensureFileExists() {
   return filePath;
 }
 
-async function appendHistorico(entry) {
-  const file = await ensureFileExists();
+async function appendHistorico(entry, tipoMaterial) {
+  const file = await ensureFileExists(tipoMaterial);
 
   const data = JSON.parse(await fs.readFile(file, 'utf-8'));
   data.historico.push(entry);

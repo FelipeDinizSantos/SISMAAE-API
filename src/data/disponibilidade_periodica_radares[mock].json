@@ -259,6 +259,46 @@
         "MANUTENCAO": 1
       },
       "total": 20
+    },
+    {
+      "timestamp": "2026-02-01T00:34:00.074Z",
+      "status": {
+        "DISPONIVEL": 9,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 8,
+        "MANUTENCAO": 0
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2026-02-01T00:35:00.064Z",
+      "status": {
+        "DISPONIVEL": 9,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 8,
+        "MANUTENCAO": 0
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2026-02-01T00:36:00.018Z",
+      "status": {
+        "DISPONIVEL": 9,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 8,
+        "MANUTENCAO": 0
+      },
+      "total": 20
+    },
+    {
+      "timestamp": "2026-02-01T00:37:00.021Z",
+      "status": {
+        "DISPONIVEL": 9,
+        "DISP_C_RESTRICAO": 3,
+        "INDISPONIVEL": 8,
+        "MANUTENCAO": 0
+      },
+      "total": 20
     }
   ]
 }
