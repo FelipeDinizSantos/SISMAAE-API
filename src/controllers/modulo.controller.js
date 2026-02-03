@@ -1,4 +1,69 @@
 const usuarioServiceFactory = require("../services/usuarios/usuario.service.factory");
+const pool = require("../config/db");
+
+exports.store = async (req, res) => {
+    const { serial_num, nome, status, origem_id, loc_id, pertence, material_id } = req.body;
+
+    // Validações 
+    if (typeof serial_num !== "string" && serial_num.length > 6) {
+        return res.status(400).json({ error: 'O número de série do material precisa ser do tipo String e conter no máximo 6 caracteres.' })
+    }
+    if (!nome) {
+        return res.status(400).json({ error: 'Nome do módulo não informado.' });
+    }
+    const pertenceValido = ["RADAR", "RBS70", "COAAE"].some(n => n === pertence.toUpperCase());
+    if (!pertenceValido) {
+        return res.status(400).json({ error: 'Material pertencente do módulo inválido. Materiais disponíveis: "RADAR", "RBS70", "COAAE"' })
+    }
+    const statusValido = ['DISPONIVEL', 'DISP_C_RESTRICAO', 'INDISPONIVEL', 'MANUTENCAO'].some(s => s === status.toUpperCase());
+    if (!statusValido) {
+        return res.status(400).json({ error: 'Status do material inválido. Status disponíveis: "DISPONIVEL", "DISP_C_RESTRICAO", "INDISPONIVEL", "MANUTENCAO"' });
+    }
+    if ((await pool.query(
+        "SELECT id FROM batalhoes WHERE id = ?",
+        [origem_id]))[0].length === 0) {
+        return res.status(400).json({ error: 'ID da OM de origem informado não existe!' });
+    }
+    if ((await pool.query(
+        "SELECT id FROM batalhoes WHERE id = ?",
+        [loc_id]))[0].length === 0) {
+        return res.status(400).json({ error: 'ID da OM atual informado não existe!' });
+    }
+    if ((await pool.query(
+        "SELECT id FROM materiais WHERE id = ?",
+        [material_id]))[0].length === 0) {
+        return res.status(400).json({ error: 'ID do material qual o módulo pertence informado não existe!' });
+    }
+
+    try {
+        const [resultado] = await pool.query(`
+            INSERT INTO modulos (
+                serial_num,
+                nome,
+                pertence,
+                status,
+                origem_id,
+                loc_id,
+                material_id
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        `, [serial_num.toUpperCase(), nome.toUpperCase(), pertence.toUpperCase(), status.toUpperCase(), origem_id, loc_id, material_id]);
+
+        return res.status(201).json({
+            id: resultado.insertId,
+            serial_num,
+            nome,
+            pertence,
+            status,
+            origem_id,
+            loc_id,
+            material_id
+        });
+
+    } catch (erro) {
+        console.log("controllers/modulo: \n" + erro);
+        return res.status(500).json({ error: 'Erro ao criar módulo.' });
+    }
+}
 
 exports.index = async (req, res) => {
     const usuario = req.usuario;
