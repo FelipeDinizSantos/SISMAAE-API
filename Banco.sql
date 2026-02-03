@@ -96,7 +96,7 @@ CREATE TABLE
 CREATE TABLE
     modulos (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        serial_num VARCHAR(4) NOT NULL,
+        serial_num VARCHAR(6) NOT NULL,
         nome VARCHAR(150) NOT NULL,
         `status` ENUM (
             'DISPONIVEL',

@@ -21,8 +21,8 @@ module.exports = {
             let whereBase = "WHERE mat.nome = ? AND (mat.origem_id = ? OR mat.loc_id = ?)";
             let where = condicoes.length > 0 ? `${whereBase} AND ${condicoes.join(" AND ")}` : whereBase;
 
-            let sql = 
-            `
+            let sql =
+                `
                 SELECT
                     mat.id,
                     mat.nome AS Material,
