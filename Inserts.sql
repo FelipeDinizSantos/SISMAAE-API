@@ -441,4 +441,13 @@ VALUES
         "$2b$10$vHzto/Y4Im9ZYk3Fkg9vNuIPDcRidoGkZKWTO5RQpEGbVJ86/tNqi",
         4,
         2
+    ),
+   (
+        "CAP",
+        "ADMIN",
+        "2234567891",
+        "adm@gmail.com",
+        "$2b$10$vHzto/Y4Im9ZYk3Fkg9vNuIPDcRidoGkZKWTO5RQpEGbVJ86/tNqi",
+        1,
+        1
     );
