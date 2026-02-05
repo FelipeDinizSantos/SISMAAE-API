@@ -450,4 +450,13 @@ VALUES
         "$2b$10$vHzto/Y4Im9ZYk3Fkg9vNuIPDcRidoGkZKWTO5RQpEGbVJ86/tNqi",
         1,
         1
+    ),
+    (
+		"CEL",
+        "Comando",
+        "987456123",
+        "comando@gmail.com",
+        "$2b$10$vHzto/Y4Im9ZYk3Fkg9vNuIPDcRidoGkZKWTO5RQpEGbVJ86/tNqi",
+        2,
+        1
     );
