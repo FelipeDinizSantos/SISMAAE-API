@@ -73,7 +73,7 @@ CREATE TABLE
     materiais (
         id INT AUTO_INCREMENT PRIMARY KEY,
         serial_num VARCHAR(6) NOT NULL,
-        nome ENUM ("RADAR", "RBS70", "COAAE") NOT NULL,
+        nome ENUM ("RADAR", "RBS70", "COAAE", "RBS70 SIMULADOR") NOT NULL,
         `status` ENUM (
             'DISPONIVEL',
             'DISP_C_RESTRICAO',
@@ -111,7 +111,8 @@ CREATE TABLE
         pertence ENUM (
 			'RADAR',
             'RBS70',
-            'COAAAE'
+            'COAAE',
+            'RBS70 SIMULADOR'
 		) NOT NULL DEFAULT 'RADAR',
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
