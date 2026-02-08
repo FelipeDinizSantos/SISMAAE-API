@@ -60,14 +60,14 @@ exports.index = async (req, res) => {
     let tipoMaterial = req.query.materialSelecionado;
 
     if (tipoMaterial) {
-        const tipoValido = ["RBS70", "RADAR", "COAAE", "RBSSIMULADOR"].find(tipo => tipo === tipoMaterial.toUpperCase());
+        const tipoValido = ["RBS70", "RADAR", "COAAE", "RBSSIMULADOR", "RBS70SIMULADOR"].find(tipo => tipo === tipoMaterial.toUpperCase());
         if (!tipoValido) {
-            return res.status(400).json({ erro: "Tipo inválido de material fornecido. Tipos válidos: RBS70, RADAR, COAAE, RBSSIMULADOR" });
+            return res.status(400).json({ erro: "Tipo inválido de material fornecido. Tipos válidos: RBS70, RADAR, COAAE, RBSSIMULADOR ou RBS70SIMULADOR" });
         }
-    }
 
-    if (tipoMaterial.toUpperCase() === "RBSSIMULADOR") {
-        tipoMaterial = "RBS70 SIMULADOR"; // Adequa o nome do material enviado via frontend para o armazenado no banco de dados
+        if (tipoMaterial.toUpperCase() === "RBSSIMULADOR" || tipoMaterial.toUpperCase() === "RBS70SIMULADOR") {
+            tipoMaterial = "RBS70 SIMULADOR"; // Adequa o nome do material enviado via frontend para o armazenado no banco de dados
+        }
     }
 
     try {

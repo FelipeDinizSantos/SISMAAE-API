@@ -5,7 +5,9 @@ const path = require("path");
 exports.dispPorRegiao = async (req, res) => {
     let material = req.query.material;
 
-    if (!material) material = "RADAR"
+    if (!material) material = "RADAR";
+
+    if (material === "RBS70SIMULADOR") material = "RBS70 SIMULADOR";
 
     try {
         let sql = `

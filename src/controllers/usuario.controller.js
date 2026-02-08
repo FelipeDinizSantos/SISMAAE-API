@@ -94,7 +94,7 @@ exports.login = async (req, res) => {
                 SELECT u.*, p.nome AS role, b.sigla AS batalhao FROM usuarios u 
                 INNER JOIN perfis p ON u.perfil_id = p.id
                 INNER JOIN batalhoes b ON u.batalhao_id = b.id
-                WHERE idt_militar = ?
+                WHERE idt_militar = ? AND ativo = true
             `,
             [idtMilitar]
         );
@@ -191,15 +191,15 @@ exports.edit = async (req, res) => {
             throw erro;
         }
 
-        console.log(req.body);
-
         const permitidos = ["idt_militar", "pg", "nome", "batalhao_id", "perfil_id"];
         let campos = [];
         let valores = [];
 
-        for (const [campo, valor] of Object.entries(req.body)) {
+        for (const [campo, valorOriginal] of Object.entries(req.body)) {
+            let valor = valorOriginal;
+
             if (permitidos.includes(campo) && valor !== undefined) {
-                if (campo === "nome") {
+                if (campo === "nome" && typeof valor === "string") {
                     valor = valor.toUpperCase();
                 }
 
