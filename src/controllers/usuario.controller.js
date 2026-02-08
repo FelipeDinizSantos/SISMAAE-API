@@ -85,7 +85,7 @@ exports.login = async (req, res) => {
     const { idtMilitar, senha } = req.body;
 
     if (!idtMilitar || !senha) {
-        return res.status(400).json({ error: 'A identidade militar e senha são obrigatórios.' });
+        return res.status(400).json({ erro: 'A identidade militar e senha são obrigatórios.' });
     }
 
     try {
@@ -100,13 +100,13 @@ exports.login = async (req, res) => {
         );
 
         if (!usuario) {
-            return res.status(400).json({ error: 'Credenciais inválidas.' });
+            return res.status(400).json({ erro: 'Credenciais inválidas.' });
         }
 
         const senhaValida = await bcrypt.compare(senha, usuario.senha_hash);
 
         if (!senhaValida) {
-            return res.status(400).json({ error: 'Credenciais inválidas.' });
+            return res.status(400).json({ erro: 'Credenciais inválidas.' });
         }
 
         const payload = {
@@ -127,7 +127,7 @@ exports.login = async (req, res) => {
         res.json({ token });
     } catch (erro) {
         console.log("controllers/usuario: \n" + erro);
-        res.status(500).json({ error: 'Erro ao realizar login.' });
+        res.status(500).json({ erro: 'Erro ao realizar login.' });
     }
 };
 

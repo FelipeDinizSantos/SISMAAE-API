@@ -42,7 +42,9 @@ module.exports = {
                     CASE 
                         WHEN mat.nome = 'RADAR' THEN 1
                         WHEN mat.nome = 'RBS70' THEN 2
-                        ELSE 3
+                        WHEN mat.nome = 'COAAE' THEN 3
+                        WHEN mat.nome = 'RBS70 SIMULADOR' THEN 4
+                        ELSE 5
                     END,
                     mat.serial_num;
             `;

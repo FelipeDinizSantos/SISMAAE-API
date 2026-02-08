@@ -11,9 +11,9 @@ exports.store = async (req, res) => {
     if (!nome) {
         return res.status(400).json({ error: 'Nome do módulo não informado.' });
     }
-    const pertenceValido = ["RADAR", "RBS70", "COAAE"].some(n => n === pertence.toUpperCase());
+    const pertenceValido = ["RADAR", "RBS70", "COAAE", "RBS70SIMULADOR", "RBS70 SIMULADOR"].some(n => n === pertence.toUpperCase());
     if (!pertenceValido) {
-        return res.status(400).json({ error: 'Material pertencente do módulo inválido. Materiais disponíveis: "RADAR", "RBS70", "COAAE"' })
+        return res.status(400).json({ error: 'Material pertencente do módulo inválido. Materiais disponíveis: "RADAR", "RBS70", "COAAE", "RBS70SIMULADOR", "RBS70 SIMULADOR"' })
     }
     const statusValido = ['DISPONIVEL', 'DISP_C_RESTRICAO', 'INDISPONIVEL', 'MANUTENCAO'].some(s => s === status.toUpperCase());
     if (!statusValido) {
@@ -46,7 +46,7 @@ exports.store = async (req, res) => {
                 loc_id,
                 material_id
             ) VALUES (?, ?, ?, ?, ?, ?, ?)
-        `, [serial_num.toUpperCase(), nome.toUpperCase(), pertence.toUpperCase(), status.toUpperCase(), origem_id, loc_id, material_id]);
+        `, [serial_num.toUpperCase(), nome.toUpperCase(), pertence.toUpperCase() === "RBS70SIMULADOR" ? "RB70 SIMULADOR" : pertence.toUpperCase(), status.toUpperCase(), origem_id, loc_id, material_id]);
 
         return res.status(201).json({
             id: resultado.insertId,

@@ -38,7 +38,15 @@ module.exports = {
                 LEFT JOIN batalhoes orig_mat ON mat.origem_id = orig_mat.id
                 LEFT JOIN batalhoes loc_mat ON mat.loc_id = loc_mat.id
                 ${where}
-                ORDER BY mat.serial_num; 
+                ORDER BY 
+                    CASE 
+                        WHEN mat.nome = 'RADAR' THEN 1
+                        WHEN mat.nome = 'RBS70' THEN 2
+                        WHEN mat.nome = 'COAAE' THEN 3
+                        WHEN mat.nome = 'RBS70 SIMULADOR' THEN 4
+                        ELSE 5
+                    END,
+                    mat.serial_num;
             `;
 
             let [resultado] = await pool.query(sql, valores);

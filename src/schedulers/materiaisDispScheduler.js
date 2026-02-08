@@ -64,7 +64,7 @@ async function coletarDadosMateriais() {
 
 function iniciar() {
     console.log('[Scheduler] Agendador de Histórico de Disponibilidade de Radares iniciado (a cada mês)');
-    cron.schedule('0 0 1 * *', coletarDadosMateriais);
+    cron.schedule('0 0 1 * *', coletarDadosMateriais); // Rodar todo primeiro dia do mês 
 }
 
 module.exports = { iniciar }

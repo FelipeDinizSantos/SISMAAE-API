@@ -8,9 +8,9 @@ exports.store = async (req, res) => {
     if (typeof serial_num !== "string" && serial_num.length > 6) {
         return res.status(400).json({ error: 'O número de série do material precisa ser do tipo String e conter no máximo 6 caracteres.' })
     }
-    const nomeValido = ["RADAR", "RBS70", "COAAE"].some(n => n === nome.toUpperCase());
+    const nomeValido = ["RADAR", "RBS70", "COAAE", "RBS70SIMULADOR", "RBS70 SIMULADOR"].some(n => n === nome.toUpperCase());
     if (!nomeValido) {
-        return res.status(400).json({ error: 'Nome de material inválido. Nomes disponíveis: "RADAR", "RBS70", "COAAE"' })
+        return res.status(400).json({ error: 'Nome de material inválido. Nomes disponíveis: "RADAR", "RBS70", "COAAE", "RBS70SIMULADOR", "RBS70 SIMULADOR"' })
     }
     const statusValido = ['DISPONIVEL', 'DISP_C_RESTRICAO', 'INDISPONIVEL', 'MANUTENCAO'].some(s => s === status.toUpperCase());
     if (!statusValido) {
@@ -36,7 +36,7 @@ exports.store = async (req, res) => {
                 origem_id,
                 loc_id
             ) VALUES (?, ?, ?, ?, ?)
-        `, [serial_num.toUpperCase(), nome.toUpperCase(), status.toUpperCase(), origem_id, loc_id]);
+        `, [serial_num.toUpperCase(), nome === "RBS70SIMULADOR" ? "RB70 SIMULADOR" : nome.toUpperCase(), status.toUpperCase(), origem_id, loc_id]);
 
         return res.status(201).json({
             id: resultado.insertId,
